@@ -3,7 +3,8 @@
   <texts>
     <text name="HomePage" value="Página de inicio" />
     <text name="About" value="Acerca de" />
-    <text name="WelcomeMessage" value="Bienvenido a WMS!" />
+	<text name="Play" value="Jugar" />
+	<text name="WelcomeMessage" value="Bienvenido a WMS!" />
     <text name="FormIsNotValidMessage" value="Formulario no es válido. Por favor, compruebe y corrija los errores." />
     <text name="TenantNameCanNotBeEmpty" value="Nombre de la empresa no puede estar vacío" />
     <text name="InvalidUserNameOrPassword" value="Usuario o contraseña invalido" />

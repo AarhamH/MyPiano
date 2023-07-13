@@ -4,8 +4,8 @@
     <text name="HomePage" value="Accueil" />
     <text name="About" value="A propos" />
     <text name="WelcomeMessage" value="Bienvenue sur TypeTester !" />
-    
-    <text name="FormIsNotValidMessage" value="Le formulaire n'est pas valide. Veuillez le corriger." />
+    <text name="Play" value="Jouer" />
+	<text name="FormIsNotValidMessage" value="Le formulaire n'est pas valide. Veuillez le corriger." />
     <text name="TenantNameCanNotBeEmpty" value="Le nom de client (tenant) doit être renseigné." />
 
     <text name="InvalidUserNameOrPassword" value="Nom d'utilisateur ou mot de passe non valide." />
