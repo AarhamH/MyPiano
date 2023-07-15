@@ -1,16 +1,38 @@
-<div [@routerTransition]>
-    <div class="content-header">
-        <div class="container-fluid">
-            <h3 class=" row col-12">
-                <span>{{l("Play")}}</span>
-            </h3>
-        </div>
+<div class="wrapper">
+    <input type="text" class="input-field" [(ngModel)]="inpField" (input)="initTyping()">
+    <div class="content-box">
+      <div class="typing-text">
+        <p id="paragraph">{{ typingText }}</p>
+      </div>
+      <div class="content">
+        <ul class="result-details">
+          <li class="time">
+            <p>
+              Time:
+            </p>
+            <span><b>{{ timeTag }}</b>s</span>
+          </li>
+          <li class="mistake">
+            <p>
+              Mistakes:
+            </p>
+            <span>{{ mistakes }}</span>
+          </li>
+          <li class="wpm">
+            <p>
+              WPM:
+            </p>
+            <span>{{ wpmIndex }}</span>
+          </li>
+          <li class="cpm">
+            <p>
+              CPM:
+            </p>
+            <span>{{ charIndex - mistakes }}</span>
+          </li>
+        </ul>
+        <button (click)="resetGame()">Try Again</button>
+      </div>
     </div>
-    <div class="content px-2">
-        <div class= "container-fluid">
-            <div class="m-portlet__body">
-                <p>Content</p>
-            </div>
-        </div>
-    </div>
-</div>
+  </div>
+  
