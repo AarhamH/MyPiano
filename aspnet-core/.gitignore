@@ -251,6 +251,6 @@ paket-files/
 .idea/
 *.sln.iml
 
-src/TypeTester.Web.Mvc/secrets.json
-src/TypeTester.Web.Host/secrets.json
-src/TypeTester.Migrator/secrets.json
+src/StudyHelper.Web.Mvc/secrets.json
+src/StudyHelper.Web.Host/secrets.json
+src/StudyHelper.Migrator/secrets.json
