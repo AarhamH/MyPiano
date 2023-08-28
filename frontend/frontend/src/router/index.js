@@ -1,9 +1,16 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import PianoKeyboard from "../views/PianoKeyboardView";
 
 Vue.use(VueRouter);
 
-const routes = [];
+const routes = [
+  {
+    path: "/",
+    name: "piano",
+    component: PianoKeyboard,
+  },
+];
 
 const router = new VueRouter({
   mode: "history",

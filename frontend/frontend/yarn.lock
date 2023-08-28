@@ -5691,6 +5691,11 @@
     "picocolors" "^1.0.0"
     "stable" "^0.1.8"
 
+"swaralipi-core@^0.1.0":
+  "integrity" "sha512-MiEYyrVDnH0t/wVoYD2TLK+itUnyz3N82eplhItLpxSt/wdHBnrku/EKmI/uXm6j2kCRa6GkTMS5MWNe3vb50A=="
+  "resolved" "https://registry.npmjs.org/swaralipi-core/-/swaralipi-core-0.1.0.tgz"
+  "version" "0.1.0"
+
 "table@^6.0.9":
   "integrity" "sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA=="
   "resolved" "https://registry.npmjs.org/table/-/table-6.8.1.tgz"
