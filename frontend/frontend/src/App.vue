@@ -192,7 +192,7 @@ export default {
     };
   },
   components: {
-    PianoView,
+    // PianoView,
   },
   methods: {
     handleAllKeysChanges: function (e) {
