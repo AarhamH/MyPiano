@@ -35,5 +35,22 @@ namespace WebAPI.Controllers
             return CreatedAtAction(nameof(GetByID), new { id = model.Id }, model);
         }
 
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public async Task<IActionResult> Update(int id, AudioModel model)
+        {
+            if (id != model.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(model).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
