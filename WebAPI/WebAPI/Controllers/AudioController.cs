@@ -52,5 +52,20 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var audioToDelete = await _context.Audios.FindAsync(id);
+
+            if (audioToDelete == null) { return NotFound(); }
+
+            _context.Audios.Remove(audioToDelete);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
