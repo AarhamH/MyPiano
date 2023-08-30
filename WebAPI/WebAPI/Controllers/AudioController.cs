@@ -25,6 +25,15 @@ namespace WebAPI.Controllers
             var audio = await _context.Audios.FindAsync(id);
             return audio == null ? NotFound() : Ok(audio);
         }
-        
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> Create(AudioModel model)
+        {
+            await _context.Audios.AddAsync(model);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetByID), new { id = model.Id }, model);
+        }
+
     }
 }
