@@ -4,7 +4,6 @@
       v-for="(key, index) in keyMappings"
       :key="index"
       :class="[key.isBlack ? 'black-key' : 'white-key']"
-      @click="playNote(key.note)"
     >
       {{ key.key }}
     </div>
@@ -46,6 +45,10 @@ const pressedKeys = {};
 const playNote = (note) => {
   if (!pressedKeys[note]) {
     const synth = new Tone.Synth().toDestination();
+    synth.onended = () => {
+      synth.dispose();
+      delete pressedKeys[note];
+    };
     synth.triggerAttack(note);
     pressedKeys[note] = synth;
   }
