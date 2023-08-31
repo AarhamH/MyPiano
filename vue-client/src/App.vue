@@ -1,153 +1,25 @@
-<template>
-  <div id="app">
-    <h1> Vue Piano Component </h1>
-
-    <section class="config-container">
-      <div>
-        <h2> Configuration </h2>
-          <!-- <hr> -->
-      </div>
-      <!-- <div style="width: 50%"> -->
-        <div class="config-elem">
-          <div class="config-elem-cell">
-            <div> All keys: </div>
-            <textarea :value="allKeys" @change="handleAllKeysChanges" rows="2" cols="60"
-              style="margin-top: 1.5%" placeholder="add keys followed by semicolumns (e.g: a,s,d...)">
-            </textarea>
-          </div>
-        </div>
-
-        <div class="config-elem">
-          <div class="config-elem-cell">
-            <label> Show Keys: </label> <input type="checkbox" v-model="showKeys"/>
-          </div>
-          <div class="config-elem-cell">
-            <label> Show Notes: </label> <input type="checkbox" v-model="showNotes"/> 
-          </div>
-          <div class="config-elem-cell">
-            <label> Sustain: </label> <input type="checkbox" v-model="sustain"/> 
-          </div>
-        </div>
-
-        <div class="config-elem">
-          <div class="config-elem-cell">
-            <label> White Note Color: </label> <input v-model="whiteNoteColor" type="color">
-          </div>
-          <div class="config-elem-cell">
-            <label> Black Note Color: </label> <input v-model="blackNoteColor" type="color">
-          </div>
-        </div>
-
-        <div class="config-elem">
-          <div class="config-elem-cell">
-            <label> Start Octave </label> <input v-model="startOctave" min="1" max="8" type="number">
-          </div>
-          <div class="config-elem-cell">
-            <label> End Octave: </label> <input v-model="endOctave" min="1" max="8" type="number">
-          </div>
-        </div>
-      <!-- </div> -->
-
-      <!-- <div> <hr> </div> -->
-    </section>
-
-    <section class="piano-container">
-      <PianoKeyboard 
-        :showKeys="showKeys"
-        :showNotes="showNotes"
-        :sustain="sustain"
-        :whiteNoteColor="whiteNoteColor"
-        :blackNoteColor="blackNoteColor"
-        :startOctave="startOctave"
-        :endOctave="endOctave"
-        :allKeys="allKeys"
-      />
-    </section>
-  </div>
-</template>
-
-<script>
-import PianoKeyboard from "../src/components/PianoKeyboard.vue"
-
-export default {
-  name: 'App',
-  data: function () {
-    return { 
-      whiteNoteColor: "#1eb7eb",
-      blackNoteColor: "#f9bb2d",
-      showKeys: false,
-      showNotes: false,
-      sustain: false,
-      startOctave: 2,
-      endOctave: 4,
-      allKeys: [ '`', `1`, '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
-            'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\',
-            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
-            'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.' ]
-    }
-  },
-  components: {
-    PianoKeyboard
-  },
-  methods: {
-    handleAllKeysChanges: function(e){
-      this.allKeys = e.srcElement.value.split(',').map(elem => elem.trim())
-      
-    }
-  }
-}
+<script setup>
+import { RouterView } from 'vue-router'
+import Header from "./components/Header.vue"
 </script>
 
-<style>
-* {
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10+ and Edge */
-  user-select: none; /* Standard syntax */
-  box-sizing: border-box;
-}
+<template>
+  <Header/>
+  <RouterView />
+</template>
 
-#app {
-  font-family: Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  display: flex;
-  padding: 5%;
-  justify-content: space-between;
-  flex-direction: column;
-  height: inherit;
-}
+<style lang="scss">
+  @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap");
 
-body, html {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+  * {
+    font-family: "Rubik", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-.piano-container {
-  margin-left: 8%;
-  margin-right: 8%;
-  height: 30%;
-}
-
-.config-container {
-  text-align: left;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 40%;
-  width: 60%;
-  padding-left: 6%;
-}
-
-.config-elem {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.config-elem-cell {
-  margin-right: 5%;
-}
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
 </style>
