@@ -37,6 +37,24 @@ const playA4 = () => playNote("A4");
 const playBb4 = () => playNote("Bb4");
 const playB4 = () => playNote("B4");
 const playC5 = () => playNote("C5");
+
+window.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "a": playC4(); break;
+    case "w": playDb4(); break;
+    case "s": playD4(); break;
+    case "e": playEb4(); break;
+    case "d": playE4(); break;
+    case "f": playF4(); break;
+    case "t": playGb4(); break;
+    case "g": playG4(); break;
+    case "y": playAb4(); break;
+    case "h": playA4(); break;
+    case "u": playBb4(); break;
+    case "j": playB4(); break;
+    case "k": playC5(); break;
+  }
+});
 </script>
 
 <style>
