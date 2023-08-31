@@ -33,7 +33,7 @@ import * as Tone from "tone";
 
 const playNote = (note) => {
   const synth = new Tone.Synth().toDestination();
-  synth.triggerAttackRelease(note, "8n");
+  synth.triggerAttackRelease(note, "8n", Tone.now(), 3.5);
 };
 
 window.addEventListener("keydown", (event) => {
