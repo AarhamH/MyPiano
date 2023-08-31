@@ -1,69 +1,74 @@
 <template>
   <div class="piano">
-    <div class="white-key" @click="playNote('C4')">q</div>
-    <div class="black-key" @click="playNote('Db4')">2</div>
-    <div class="white-key" @click="playNote('D4')">w</div>
-    <div class="black-key" @click="playNote('Eb4')">3</div>
-    <div class="white-key" @click="playNote('E4')">e</div>
-    <div class="white-key" @click="playNote('F4')">4</div>
-    <div class="black-key" @click="playNote('Gb4')">r</div>
-    <div class="white-key" @click="playNote('G4')">5</div>
-    <div class="black-key" @click="playNote('Ab4')">t</div>
-    <div class="white-key" @click="playNote('A4')">6</div>
-    <div class="black-key" @click="playNote('Bb4')">y</div>
-    <div class="white-key" @click="playNote('B4')">7</div>
-
-    <div class="white-key" @click="playNote('C5')">u</div>
-    <div class="black-key" @click="playNote('Db5')">8</div>
-    <div class="white-key" @click="playNote('D5')">i</div>
-    <div class="black-key" @click="playNote('Eb5')">9</div>
-    <div class="white-key" @click="playNote('E5')">o</div>
-    <div class="white-key" @click="playNote('F5')">0</div>
-    <div class="black-key" @click="playNote('Gb5')">p</div>
-    <div class="white-key" @click="playNote('G5')">-</div>
-    <div class="black-key" @click="playNote('Ab5')">[</div>
-    <div class="white-key" @click="playNote('A5')">=</div>
-    <div class="black-key" @click="playNote('Bb5')">]</div>
-    <div class="white-key" @click="playNote('B5')">Back</div>
+    <div
+      v-for="(key, index) in keyMappings"
+      :key="index"
+      :class="[key.isBlack ? 'black-key' : 'white-key']"
+      @click="playNote(key.note)"
+    >
+      {{ key.key }}
+    </div>
   </div>
 </template>
 
 <script setup>
 import * as Tone from "tone";
 
+const keyMappings = [
+  { key: "q", note: "C4", isBlack: false },
+  { key: "2", note: "Db4", isBlack: true },
+  { key: "w", note: "D4", isBlack: false },
+  { key: "3", note: "Eb4", isBlack: true },
+  { key: "e", note: "E4", isBlack: false },
+  { key: "4", note: "F4", isBlack: false },
+  { key: "r", note: "Gb4", isBlack: true },
+  { key: "5", note: "G4", isBlack: false },
+  { key: "t", note: "Ab4", isBlack: true },
+  { key: "6", note: "A4", isBlack: false },
+  { key: "y", note: "Bb4", isBlack: true },
+  { key: "7", note: "B4", isBlack: false },
+  { key: "u", note: "C5", isBlack: false },
+  { key: "8", note: "Db5", isBlack: true },
+  { key: "i", note: "D5", isBlack: false },
+  { key: "9", note: "Eb5", isBlack: true },
+  { key: "o", note: "E5", isBlack: false },
+  { key: "0", note: "F5", isBlack: false },
+  { key: "p", note: "Gb5", isBlack: true },
+  { key: "-", note: "G5", isBlack: false },
+  { key: "[", note: "Ab5", isBlack: true },
+  { key: "=", note: "A5", isBlack: false },
+  { key: "]", note: "Bb5", isBlack: true },
+  { key: "Backspace", note: "B5", isBlack: false }
+];
+
+const pressedKeys = {};
+
 const playNote = (note) => {
-  const synth = new Tone.Synth().toDestination();
-  synth.triggerAttackRelease(note, "8n", Tone.now(), 3.5);
+  if (!pressedKeys[note]) {
+    const synth = new Tone.Synth().toDestination();
+    synth.triggerAttack(note);
+    pressedKeys[note] = synth;
+  }
+};
+
+const releaseNote = (note) => {
+  if (pressedKeys[note]) {
+    pressedKeys[note].triggerRelease();
+    pressedKeys[note] = null;
+  }
 };
 
 window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    case "q": playNote('C4'); break;
-    case "2": playNote('Db4'); break;
-    case "w": playNote('D4'); break;
-    case "3": playNote('Eb4'); break;
-    case "e": playNote('E4'); break;
-    case "4": playNote('F4'); break;
-    case "r": playNote('Gb4'); break;
-    case "5": playNote('G4'); break;
-    case "t": playNote('Ab4'); break;
-    case "6": playNote('A4'); break;
-    case "y": playNote('Bb4'); break;
-    case "7": playNote('B4'); break;
+  const keyMapping = keyMappings.find(mapping => mapping.key === event.key);
+  if (keyMapping) {
+    playNote(keyMapping.note);
+  }
+});
 
-    case "u": playNote('C5'); break;
-    case "8": playNote('Db5'); break;
-    case "i": playNote('D5'); break;
-    case "9": playNote('Eb5'); break;
-    case "o": playNote('E5'); break;
-    case "0": playNote('F5'); break;
-    case "p": playNote('Gb5'); break;
-    case "-": playNote('G5'); break;
-    case "[": playNote('Ab5'); break;
-    case "=": playNote('A5'); break;
-    case "]": playNote('Bb5'); break;
-    case "Backspace": playNote('B5'); break;
-
+window.addEventListener("keyup", (event) => {
+  const keyMapping = keyMappings.find(mapping => mapping.key === event.key);
+  if (keyMapping) {
+    releaseNote(keyMapping.note);
   }
 });
 </script>
