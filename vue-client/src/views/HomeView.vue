@@ -1,17 +1,30 @@
 <template>
   <div class="piano">
-    <div class="white-key" @click="playNote('C4')">A</div>
-    <div class="black-key" @click="playNote('Db4')">W</div>
-    <div class="white-key" @click="playNote('D4')">S</div>
-    <div class="black-key" @click="playNote('Eb4')">E</div>
-    <div class="white-key" @click="playNote('E4')">D</div>
-    <div class="white-key" @click="playNote('F4')">F</div>
-    <div class="black-key" @click="playNote('Gb4')">T</div>
-    <div class="white-key" @click="playNote('G4')">G</div>
-    <div class="black-key" @click="playNote('Ab4')">Y</div>
-    <div class="white-key" @click="playNote('A4')">H</div>
-    <div class="black-key" @click="playNote('Bb4')">U</div>
-    <div class="white-key" @click="playNote('B4')">J</div>
+    <div class="white-key" @click="playNote('C4')">q</div>
+    <div class="black-key" @click="playNote('Db4')">2</div>
+    <div class="white-key" @click="playNote('D4')">w</div>
+    <div class="black-key" @click="playNote('Eb4')">3</div>
+    <div class="white-key" @click="playNote('E4')">e</div>
+    <div class="white-key" @click="playNote('F4')">4</div>
+    <div class="black-key" @click="playNote('Gb4')">r</div>
+    <div class="white-key" @click="playNote('G4')">5</div>
+    <div class="black-key" @click="playNote('Ab4')">t</div>
+    <div class="white-key" @click="playNote('A4')">6</div>
+    <div class="black-key" @click="playNote('Bb4')">y</div>
+    <div class="white-key" @click="playNote('B4')">7</div>
+
+    <div class="white-key" @click="playNote('C5')">u</div>
+    <div class="black-key" @click="playNote('Db5')">8</div>
+    <div class="white-key" @click="playNote('D5')">i</div>
+    <div class="black-key" @click="playNote('Eb5')">9</div>
+    <div class="white-key" @click="playNote('E5')">o</div>
+    <div class="white-key" @click="playNote('F5')">0</div>
+    <div class="black-key" @click="playNote('Gb5')">p</div>
+    <div class="white-key" @click="playNote('G5')">-</div>
+    <div class="black-key" @click="playNote('Ab5')">[</div>
+    <div class="white-key" @click="playNote('A5')">=</div>
+    <div class="black-key" @click="playNote('Bb5')">]</div>
+    <div class="white-key" @click="playNote('B5')">Back</div>
   </div>
 </template>
 
@@ -37,6 +50,20 @@ window.addEventListener("keydown", (event) => {
     case "6": playNote('A4'); break;
     case "y": playNote('Bb4'); break;
     case "7": playNote('B4'); break;
+
+    case "u": playNote('C5'); break;
+    case "8": playNote('Db5'); break;
+    case "i": playNote('D5'); break;
+    case "9": playNote('Eb5'); break;
+    case "o": playNote('E5'); break;
+    case "0": playNote('F5'); break;
+    case "p": playNote('Gb5'); break;
+    case "-": playNote('G5'); break;
+    case "[": playNote('Ab5'); break;
+    case "=": playNote('A5'); break;
+    case "]": playNote('Bb5'); break;
+    case "Backspace": playNote('B5'); break;
+
   }
 });
 </script>
