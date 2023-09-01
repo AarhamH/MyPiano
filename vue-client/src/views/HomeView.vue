@@ -7,6 +7,7 @@
     >
       {{ key.key }}
     </div>
+    <button @click="toggleRecording">{{ isRecording ? 'Stop Recording' : 'Start Recording' }}</button>
   </div>
 </template>
 
@@ -40,36 +41,33 @@ const keyMappings = [
   { key: "Backspace", note: "B5", isBlack: false }
 ];
 
-const pressedKeys = {};
+const synth = new Tone.PolySynth().toDestination(); // Use PolySynth to play multiple notes simultaneously
+
+const pressedKeys = new Set();
 
 const playNote = (note) => {
-  if (!pressedKeys[note]) {
-    const synth = new Tone.Synth().toDestination();
-    synth.onended = () => {
-      synth.dispose();
-      delete pressedKeys[note];
-    };
+  if (!pressedKeys.has(note)) {
     synth.triggerAttack(note);
-    pressedKeys[note] = synth;
+    pressedKeys.add(note);
   }
 };
 
 const releaseNote = (note) => {
-  if (pressedKeys[note]) {
-    pressedKeys[note].triggerRelease();
-    pressedKeys[note] = null;
+  if (pressedKeys.has(note)) {
+    synth.triggerRelease(note);
+    pressedKeys.delete(note);
   }
 };
 
 window.addEventListener("keydown", (event) => {
-  const keyMapping = keyMappings.find(mapping => mapping.key === event.key);
+  const keyMapping = keyMappings.find((mapping) => mapping.key === event.key);
   if (keyMapping) {
     playNote(keyMapping.note);
   }
 });
 
 window.addEventListener("keyup", (event) => {
-  const keyMapping = keyMappings.find(mapping => mapping.key === event.key);
+  const keyMapping = keyMappings.find((mapping) => mapping.key === event.key);
   if (keyMapping) {
     releaseNote(keyMapping.note);
   }
