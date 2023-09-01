@@ -7,12 +7,26 @@
     >
       {{ key.key }}
     </div>
-    <button @click="toggleRecording">{{ isRecording ? 'Stop Recording' : 'Start Recording' }}</button>
-  </div>
+    <input class="yep" id="check-apple" type="checkbox" @change="handleCheckboxChange">    
+    <label for="check-apple"></label>    
+    </div>
 </template>
 
 <script setup>
 import * as Tone from "tone";
+
+const handleCheckboxChange = () => {
+  if (isChecked) {
+    // Checkbox is checked
+    synth.triggerAttackRelease("C4","8n");
+    isChecked = false;
+  } else {
+    // Checkbox is unchecked
+    synth.triggerAttackRelease("E5","8n");
+    isChecked = true;
+
+  }
+};
 
 const keyMappings = [
   { key: "q", note: "C4", isBlack: false },
@@ -59,10 +73,13 @@ const releaseNote = (note) => {
   }
 };
 
+let isChecked = false;
+
 window.addEventListener("keydown", (event) => {
   const keyMapping = keyMappings.find((mapping) => mapping.key === event.key);
   if (keyMapping) {
     playNote(keyMapping.note);
+    console.log(keyMapping.note)
   }
 });
 
@@ -72,6 +89,7 @@ window.addEventListener("keyup", (event) => {
     releaseNote(keyMapping.note);
   }
 });
+
 </script>
 
 <style>
