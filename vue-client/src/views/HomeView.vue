@@ -16,16 +16,25 @@
 import * as Tone from "tone";
 
 const handleCheckboxChange = () => {
-  if (isChecked) {
-    // Checkbox is checked
-    synth.triggerAttackRelease("C4","8n");
-    isChecked = false;
+  if (!isChecked) {
+    console.log("recording starting")
+    Tone.start(); // Ensure audio context is started
+    synth.connect(recorder); // Connect the synth to the recorder
+    recorder.start(); // Start recording
   } else {
-    // Checkbox is unchecked
-    synth.triggerAttackRelease("E5","8n");
-    isChecked = true;
-
+    console.log("recording stopping")
+    setTimeout(async () => {
+      // the recorded audio is returned as a blob
+      const recording = await recorder.stop();
+      // download the recording by creating an anchor element and blob url
+      const url = URL.createObjectURL(recording);
+      const anchor = document.createElement("a");
+      anchor.download = "recording.webm";
+      anchor.href = url;
+      anchor.click();
+    }, 400);
   }
+  isChecked = !isChecked;
 };
 
 const keyMappings = [
@@ -56,6 +65,7 @@ const keyMappings = [
 ];
 
 const synth = new Tone.PolySynth().toDestination(); // Use PolySynth to play multiple notes simultaneously
+const recorder = new Tone.Recorder();
 
 const pressedKeys = new Set();
 
