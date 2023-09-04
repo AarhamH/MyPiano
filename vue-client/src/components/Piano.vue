@@ -15,8 +15,10 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, ref } from 'vue'
 import * as Tone from "tone";
+import { isSustained } from './Dashboard.vue';
+import Dashboard from './Dashboard.vue'
 
 const props = defineProps({
     synth:Tone.PolySynth
@@ -61,9 +63,22 @@ const playNote = (note) => {
 
 const releaseNote = (note) => {
   if (pressedKeys.has(note)) {
-    props.synth.triggerRelease(note);
+    if(isSustained.value)
+    {
+        setTimeout(async () => {
+        props.synth.triggerRelease(note);
+        },400)       
+    }
+    else{
+        setTimeout(async () => {
+        props.synth.triggerRelease(note);
+        },0)      
+    }
+    console.log(isSustained.value)
+
     pressedKeys.delete(note);
   }
+
 };
 
 window.addEventListener("keydown", (event) => {
