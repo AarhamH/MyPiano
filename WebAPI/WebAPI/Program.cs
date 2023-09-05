@@ -23,6 +23,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(options =>
+{
+    options
+        .AllowAnyOrigin()          // Allow requests from any origin (domain)
+        .AllowAnyMethod()          // Allow any HTTP method (e.g., GET, POST, PUT, DELETE)
+        .AllowAnyHeader();          // Allow any HTTP headers in the request
+});
+
 app.UseAuthorization();
 
 app.MapControllers();
