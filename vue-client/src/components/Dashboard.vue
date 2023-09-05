@@ -11,6 +11,11 @@
           Sustain?
           <label for="check-apple-sustain"></label>
         </div>
+        <div class="checkbox-apple">
+          <input class="yep" id="check-apple-sustain" type="checkbox" @change="handleMetronome">
+          Metronome
+          <label for="check-apple-sustain"></label>
+        </div>
       </div>
     </div>
   </template>
@@ -21,6 +26,9 @@ import * as Tone from 'tone';
 
 const isChecked = ref(false);
 export const isSustained = ref(false);
+const metronome  = ref(false);
+
+const metronomeSound = new Tone.PolySynth().toDestination();
 export default {
   props: {
     recorder: Object,
@@ -58,8 +66,6 @@ export default {
       isSustained.value = !isSustained.value;
     };
 
-    const useSustain = () => isSustained.value;
-
     // Start audio context when the component is mounted
     onMounted(() => {
       Tone.start();
@@ -70,11 +76,9 @@ export default {
       isSustained,
       handleCheckboxChange,
       handleSustain,
-      useSustain,
     };
   },
 };
-export function useSustain(){return isSustained.value}
 </script> 
 
   

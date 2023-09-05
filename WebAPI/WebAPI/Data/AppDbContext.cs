@@ -18,5 +18,7 @@ namespace WebAPI.Data
         }
 
         public DbSet<AudioModel> Audios { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+
     }
 }

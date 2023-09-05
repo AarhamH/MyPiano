@@ -8,7 +8,5 @@ namespace WebAPI.Models
         public string Title { get; set; }
         public DateTime Created { get; set; }
 
-
-
     }
 }
