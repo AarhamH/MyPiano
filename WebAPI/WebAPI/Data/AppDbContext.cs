@@ -20,5 +20,12 @@ namespace WebAPI.Data
         public DbSet<AudioModel> Audios { get; set; }
         public DbSet<UserModel> Users { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserModel>(entity =>
+            {
+                entity.HasIndex(e => e.Email).IsUnique();
+            });
+        }
     }
 }
