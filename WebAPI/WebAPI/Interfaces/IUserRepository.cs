@@ -6,5 +6,7 @@ namespace WebAPI.Interfaces
     {
         UserModel Build(UserModel user);
         UserModel GetByEmail(string email);
+
+        UserModel GetById(int id);
     }
 }

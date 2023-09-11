@@ -35,7 +35,6 @@ app.UseCors(options =>
     options
         .AllowAnyOrigin()    
         .AllowAnyMethod()
-        .AllowCredentials()         
         .AllowAnyHeader();          
 });
 

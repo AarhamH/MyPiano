@@ -18,5 +18,21 @@ namespace WebAPI.Services
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
+
+        public JwtSecurityToken Verify(string jwt)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtKey = Encoding.ASCII.GetBytes(key);
+
+            tokenHandler.ValidateToken(jwt, new TokenValidationParameters
+            {
+                IssuerSigningKey = new SymmetricSecurityKey(jwtKey),
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = false,
+                ValidateAudience = false
+            }, out SecurityToken validatedToken);
+
+            return (JwtSecurityToken) validatedToken;
+        }
     }
 }
