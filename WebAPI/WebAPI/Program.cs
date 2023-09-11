@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.Interfaces;
+using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql("WebApiDb"));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<JWTService>();
+
 
 var app = builder.Build();
 
@@ -30,9 +33,10 @@ app.UseHttpsRedirection();
 app.UseCors(options =>
 {
     options
-        .AllowAnyOrigin()          // Allow requests from any origin (domain)
-        .AllowAnyMethod()          // Allow any HTTP method (e.g., GET, POST, PUT, DELETE)
-        .AllowAnyHeader();          // Allow any HTTP headers in the request
+        .AllowAnyOrigin()    
+        .AllowAnyMethod()
+        .AllowCredentials()         
+        .AllowAnyHeader();          
 });
 
 app.UseAuthorization();

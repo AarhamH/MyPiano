@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebAPI.Dto;
 using WebAPI.Interfaces;
 using WebAPI.Models;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
@@ -11,9 +12,11 @@ namespace WebAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserRepository _repository;
-        public AuthController(IUserRepository repository) 
+        private readonly JWTService _jwtService;
+        public AuthController(IUserRepository repository, JWTService jwtservice) 
         {
             _repository = repository;
+            _jwtService = jwtservice;
         }
 
         [HttpPost("register")]
@@ -42,7 +45,14 @@ namespace WebAPI.Controllers
                 return BadRequest(new { message = "Invalid Credentials" });
             }
 
-            return Ok(user);
+            var jwt = _jwtService.Generate(user.Id);
+
+            Response.Cookies.Append("jwt", jwt, new CookieOptions { HttpOnly = true });
+
+            return Ok(new
+            {
+                jwt
+            });
         }
     }
 }
