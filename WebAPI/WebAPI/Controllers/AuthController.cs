@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto dto)
+        public IActionResult Register(RegisterDto dto)
         {
             var user = new UserModel
             {
@@ -25,6 +25,24 @@ namespace WebAPI.Controllers
             };
 
             return Created("Success",_repository.Build(user));
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginDto dto)
+        {
+            var user = _repository.GetByEmail(dto.Email);
+
+            if(user == null)
+            {
+                return BadRequest(new {message = "Invalid Credentials"});
+            }
+
+            if(!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+            {
+                return BadRequest(new { message = "Invalid Credentials" });
+            }
+
+            return Ok(user);
         }
     }
 }

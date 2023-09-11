@@ -14,5 +14,10 @@ namespace WebAPI.Interfaces
             _context.SaveChanges();
             return user;
         }
+
+        public UserModel GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(x => x.Email == email);
+        }
     }
 }
