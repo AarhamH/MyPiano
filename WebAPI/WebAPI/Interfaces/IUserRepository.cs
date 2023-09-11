@@ -4,6 +4,6 @@ namespace WebAPI.Interfaces
 {
     public interface IUserRepository
     {
-        UserModel Create(UserModel user);
+        UserModel Build(UserModel user);
     }
 }

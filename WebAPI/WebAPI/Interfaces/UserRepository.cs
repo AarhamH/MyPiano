@@ -6,15 +6,12 @@ namespace WebAPI.Interfaces
     public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
-        public UserRepository(AppDbContext context) 
-        {
-            _context = context;
-        }
+        public UserRepository(AppDbContext context) => _context = context;
 
-        public UserModel Create(UserModel user)
+        public UserModel Build(UserModel user)
         {
             _context.Users.Add(user);
-            user.Id = _context.SaveChanges();
+            _context.SaveChanges();
             return user;
         }
     }
