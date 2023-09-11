@@ -14,7 +14,7 @@ namespace WebAPI.Interfaces
         public UserModel Create(UserModel user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            user.Id = _context.SaveChanges();
             return user;
         }
     }
