@@ -18,8 +18,8 @@
 </template>
 
 <script>
-  import axios from 'axios';
   import router from '../router';
+
   export default {
     data() {
       return {
@@ -32,17 +32,29 @@
     methods: {
       async loginUser() {
         try {
-          const response = await axios.post(`https://localhost:7089/api/Auth/login`, this.logUser);
-          
+          const response = await fetch(`https://localhost:7089/api/Auth/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.logUser),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const responseData = await response.json();
+
           // Handle success (e.g., show a success message, clear the form)
-          console.log('User logged in successfully:', response.data);
+          console.log('User logged in successfully:', responseData);
 
           // Optionally, you can redirect the user to a different page or update the UI as needed.
         } catch (error) {
           console.error('Error logging user:', error);
           // Handle errors here (e.g., show an error message)
         }
-        await router.push('/')
+        await router.push('/');
       },
     },
   };

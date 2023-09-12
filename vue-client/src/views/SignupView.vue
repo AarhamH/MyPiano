@@ -22,9 +22,9 @@
   </template>
   
   <script>
-  import axios from 'axios';
   import { useRouter } from 'vue-router';    
   import router from '../router';
+
   export default {
     data() {
       return {
@@ -38,19 +38,24 @@
     methods: {
       async createUser() {
         try {
-          const response = await axios.post(`https://localhost:7089/api/Auth/register`, this.newUser);
-          
-          // Handle success (e.g., show a success message, clear the form)
-          console.log('User created successfully:', response.data);
-  
-          // Optionally, you can redirect the user to a different page or update the UI as needed.
+          const response = await fetch(`https://localhost:7089/api/Auth/register`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.newUser),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
         } catch (error) {
           console.error('Error creating user:', error);
           // Handle errors here (e.g., show an error message)
         }
-        await router.push('/login')
-
+        await router.push('/login');
       },
     },
   };
-  </script>
+</script>
