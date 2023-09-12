@@ -4,7 +4,7 @@
       <form @submit.prevent="createUser">
         <div>
           <label for="username">Username:</label>
-          <input type="text" id="username" v-model="newUser.username" required />
+          <input type="text" id="username" v-model="newUser.name" required />
         </div>
         <div>
           <label for="email">Email:</label>
@@ -23,12 +23,13 @@
   
   <script>
   import axios from 'axios';
-    
+  import { useRouter } from 'vue-router';    
+  import router from '../router';
   export default {
     data() {
       return {
         newUser: {
-          username: '',
+          name: '',
           email: '',
           password: '',
         },
@@ -37,7 +38,7 @@
     methods: {
       async createUser() {
         try {
-          const response = await axios.post(`https://localhost:7089/api/User`, this.newUser);
+          const response = await axios.post(`https://localhost:7089/api/Auth/register`, this.newUser);
           
           // Handle success (e.g., show a success message, clear the form)
           console.log('User created successfully:', response.data);
@@ -47,6 +48,8 @@
           console.error('Error creating user:', error);
           // Handle errors here (e.g., show an error message)
         }
+        await router.push('/login')
+
       },
     },
   };
