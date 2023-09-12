@@ -50,7 +50,7 @@
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
 
-        } catch (error) {
+         } catch (error) {
           console.error('Error creating user:', error);
           // Handle errors here (e.g., show an error message)
         }
