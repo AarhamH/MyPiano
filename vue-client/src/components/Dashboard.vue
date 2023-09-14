@@ -47,7 +47,7 @@ export default {
         props.recorder.start(); // Start recording
       } else {
         console.log("recording stopping");
-        setTimeout(async () => {
+        setTimeout(async () => { 
           // the recorded audio is returned as a blob
           const recording = await props.recorder.stop();
           // download the recording by creating an anchor element and blob URL

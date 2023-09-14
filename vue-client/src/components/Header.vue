@@ -18,7 +18,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style>
 header {
   background-color: #f1f1f1;
   nav {
