@@ -8,9 +8,6 @@
                 <RouterLink to="/">  
                     Home
                 </RouterLink>
-                <RouterLink to="about">  
-                    About
-                </RouterLink>
             </ul>
         </nav>
     </header>
@@ -18,7 +15,6 @@
 
 <script>
   import { RouterLink } from 'vue-router';
-  import { onMounted } from 'vue';
 
 </script>
 

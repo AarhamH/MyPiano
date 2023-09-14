@@ -1,17 +1,30 @@
 <template>
-  <Dashboard :word="word" :synth="synth" :recorder="recorder"/>
-  <Piano :synth="synth"/>
+  <Dashboard :word="word" :synth="synth" :recorder="recorder "/>
+  <Piano v-if="isHome" :synth="synth"/>
 </template>
 
 <script setup>
   import Dashboard from '../components/Dashboard.vue';
   import Piano from '../components/Piano.vue'
+  import { useRoute } from 'vue-router';
   import * as Tone from "tone";
 
-  const synth = new Tone.PolySynth().toDestination(); // Use PolySynth to play multiple notes simultaneously
+  const synth = new Tone.PolySynth().toDestination();
   const recorder = new Tone.Recorder();
 
-  const word = "hello"
+  const word = "yes";
+  const route = useRoute()
+  console.log(route.name)
+
+  const isHome =()=>
+  {
+    if(route.name === 'home')
+    {
+      return true;
+    }
+    return false;
+  }
+
 </script>
 
 <style>

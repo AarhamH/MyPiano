@@ -1,11 +1,13 @@
 <script setup>
-import { RouterView } from 'vue-router'
-import HomeView from './views/HomeView.vue';
 import Layout from './components/Layout.vue';
+import { useRoute } from 'vue-router';
+import HomeView from './views/HomeView.vue';
+import Header from './components/Header.vue';
 </script>
 
 <template>
-  <Layout/>
+  <Header/>
+  <RouterView/>
 </template>
 
 <style lang="scss">

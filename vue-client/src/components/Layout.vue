@@ -1,25 +1,39 @@
-<!-- Layout.vue -->
 <template>
     <div>
-      <Header v-if="hideHeader" />
-      <RouterView/>
+      <Header v-if="showHeader" />
+      <HomeView v-if="shouldRenderChild" :synth="synth" :recorder="recorder"/>
+      <router-view />
     </div>
   </template>
   
   <script>
+  import HomeView from '../views/HomeView.vue';
   import Header from './Header.vue';
-  import { RouterView } from 'vue-router'
-
+  import * as Tone from "tone";
   
+  let synth = new Tone.PolySynth().toDestination();
+  let recorder = new Tone.Recorder();
   export default {
     components: {
-      Header,
+    Header,
+    HomeView
     },
-    computed: {
-      hideHeader() {
-        // Conditionally show the header based on the current route
-        return !['/login', '/signup'].includes(this.$route.path);
-      },
+    setup()
+    {
+        const showHeader=()=>
+        {
+          return !this.$route.meta.hideHeader;      
+        }
+
+        const toggleChildComponent=()=>
+        {
+          this.shouldRenderChild = !this.shouldRenderChild;
+        }
+
+        return {
+          showHeader,
+          toggleChildComponent
+        }
     },
   };
   </script>

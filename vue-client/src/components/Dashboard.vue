@@ -1,5 +1,5 @@
 <template>
-    <div class="control-board">
+    <div class="control-board" v-if="isControlBoardVisible">
       <div class="button-container">
         <div class="checkbox-apple">
           <input class="yep" id="check-apple-record" type="checkbox" @change="handleCheckboxChange">
@@ -23,10 +23,13 @@
 <script>
 import { ref, onMounted } from 'vue';
 import * as Tone from 'tone';
+import { useRoute } from 'vue-router';
 
 const isChecked = ref(false);
-export const isSustained = ref(false);
+export let isSustained;
 const metronome  = ref(false);
+
+const route = useRoute();
 
 const metronomeSound = new Tone.PolySynth().toDestination();
 export default {
@@ -35,6 +38,7 @@ export default {
     synth: Object,
   },
   setup(props) {
+    isSustained = false;
     const handleCheckboxChange = () => {
       if (!isChecked.value) {
         console.log("recording starting");
@@ -58,13 +62,18 @@ export default {
     };
 
     const handleSustain = () => {
-      if (!isSustained.value) {
+      if (!isSustained) {
         console.log("sustain starting");
       } else {
         console.log("sustain stopping");
       }
-      isSustained.value = !isSustained.value;
+      isSustained = !isSustained;
     };
+
+    const isControlBoardVisible = () => {
+     // Replace 'yourRouteName' with the actual name of the route where you want to display the control board
+      return route.name === 'home';
+};
 
     // Start audio context when the component is mounted
     onMounted(() => {
@@ -76,6 +85,7 @@ export default {
       isSustained,
       handleCheckboxChange,
       handleSustain,
+      isControlBoardVisible
     };
   },
 };

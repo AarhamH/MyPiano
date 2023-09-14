@@ -24,8 +24,6 @@ const props = defineProps({
     synth:Tone.PolySynth
 })
 
-const synth = new Tone.PolySynth().toDestination(); // Use PolySynth to play multiple notes simultaneously
-const recorder = new Tone.Recorder();
 const pressedKeys = new Set();
 const keyMappings = [
   { key: "q", note: "C4", isBlack: false },
@@ -63,7 +61,7 @@ const playNote = (note) => {
 
 const releaseNote = (note) => {
   if (pressedKeys.has(note)) {
-    if(isSustained.value)
+    if(isSustained)
     {
         setTimeout(async () => {
         props.synth.triggerRelease(note);
