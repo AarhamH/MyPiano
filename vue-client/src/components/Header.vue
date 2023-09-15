@@ -2,19 +2,42 @@
     <header>
         <nav class="container">
             <div class="title">
-                <h1>Piano</h1>
+                <h1>MyPiano</h1>
             </div>
             <ul class="nav-routes">
-                <RouterLink to="/">  
-                    Home
-                </RouterLink>
+                Hello {{ message }}!
             </ul>
         </nav>
     </header>
 </template>
 
 <script>
+  import { onMounted, ref } from 'vue';
   import { RouterLink } from 'vue-router';
+  export default
+  {
+    setup()
+    {
+      const message = ref('You are not logged in');
+
+      onMounted( async () => {
+        const response = await fetch(`https://localhost:7089/api/Auth/user`, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+
+          });
+
+        const content = await response.json();
+        console.log(content)
+
+        message.value = content.username;
+      })
+
+      return { message }
+    }
+  }
 
 </script>
 

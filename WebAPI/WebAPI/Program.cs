@@ -15,7 +15,6 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql("WebApi
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<JWTService>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,12 +28,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-
 app.UseCors(options =>
 {
     options
-        .AllowAnyOrigin()    
+        .SetIsOriginAllowed(_ => true)
         .AllowAnyMethod()
+        .AllowCredentials()         
         .AllowAnyHeader();          
 });
 

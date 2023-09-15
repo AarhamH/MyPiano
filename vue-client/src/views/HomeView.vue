@@ -1,6 +1,7 @@
 <template>
   <Dashboard :word="word" :synth="synth" :recorder="recorder "/>
   <Piano v-if="isHome" :synth="synth"/>
+    {{ message }}
   <RecordedList/>
 </template>
 
@@ -9,7 +10,7 @@
   import Piano from '../components/Piano.vue'
   import { useRoute } from 'vue-router';
   import * as Tone from "tone";
-import RecordedList from '../components/RecordedList.vue';
+  import RecordedList from '../components/RecordedList.vue';
 
   const synth = new Tone.PolySynth().toDestination();
   const recorder = new Tone.Recorder();

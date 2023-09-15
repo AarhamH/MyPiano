@@ -4,7 +4,7 @@
       <form @submit.prevent="createUser">
         <div>
           <label for="username">Username:</label>
-          <input type="text" id="username" v-model="newUser.name" required />
+          <input type="text" id="username" v-model="newUser.username" required />
         </div>
         <div>
           <label for="email">Email:</label>
@@ -29,7 +29,7 @@
     data() {
       return {
         newUser: {
-          name: '',
+          username: '',
           email: '',
           password: '',
         },

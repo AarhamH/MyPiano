@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         {
             var user = new UserModel
             {
-                Username = dto.Name, Email = dto.Email, Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+                Username = dto.Username, Email = dto.Email, Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
             };
 
             return Created("Success",_repository.Build(user));
