@@ -12,7 +12,7 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230911012224_init")]
+    [Migration("20230915214908_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,12 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Audios");
                 });
@@ -66,10 +71,23 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("WebAPI.Models.AudioModel", b =>
+                {
+                    b.HasOne("WebAPI.Models.UserModel", "UserModel")
+                        .WithMany("Audios")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserModel");
+                });
+
+            modelBuilder.Entity("WebAPI.Models.UserModel", b =>
+                {
+                    b.Navigation("Audios");
                 });
 #pragma warning restore 612, 618
         }

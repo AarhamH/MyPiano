@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
 using WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Interfaces;
+using WebAPI.Dto;
 
 namespace WebAPI.Controllers
 {
@@ -11,7 +13,12 @@ namespace WebAPI.Controllers
     public class AudioController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public AudioController(AppDbContext context) => _context = context;
+        private readonly IUserRepository _repository;
+        public AudioController(AppDbContext context, IUserRepository repository)
+        {
+            _context = context;
+            _repository = repository;
+        }
 
         [HttpGet]
         public async Task <IEnumerable<AudioModel>> Get()
@@ -30,9 +37,11 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(AudioModel model)
         {
+            var user = await _context.Users.FindAsync(model.UserId);
+            model.UserModel = user;
             await _context.Audios.AddAsync(model);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetByID), new { id = model.Id }, model);
+            return Ok(model.UserModel.Username);
         }
 
         [HttpPut("{id}")]

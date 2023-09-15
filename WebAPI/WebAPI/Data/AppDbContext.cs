@@ -24,8 +24,9 @@ namespace WebAPI.Data
         {
             modelBuilder.Entity<UserModel>(entity =>
             {
-                entity.HasIndex(e => e.Email).IsUnique();
+                entity.HasMany(e => e.Audios).WithOne(e => e.UserModel).HasForeignKey(e => e.UserId).IsRequired();
             });
         }
+       
     }
 }
