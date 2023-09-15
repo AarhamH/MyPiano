@@ -4,26 +4,86 @@
             <header class="st_table_header">
             <h2>Table header one</h2>
             <div class="st_row">
-                <div class="st_column _rank">Rank</div>
-                <div class="st_column _name">Name</div>
-                <div class="st_column _surname">Surname</div>
-                <div class="st_column _year">Year</div>
-                <div class="st_column _section">Section</div>
+                <div class="st_column _rank">ID</div>
+                <div class="st_column _name">Title</div>
+                <div class="st_column _surname">Date of Creation</div>
+                <div class="st_column _surname">Action</div>
+
             </div>
             </header>
             <div class="st_table">
-            <div class="st_row">
-                <div class="st_column _rank">0</div>
-                <div class="st_column _name">John</div>
-                <div class="st_column _surname">Doe</div>
-                <div class="st_column _year">1973</div>
-                <div class="st_column _section">Germany</div>
+            <div class="st_row" v-for="(song,index) in this.songs" :key="index">
+                <div class="st_column _rank">{{ song.id }}</div>
+                <div class="st_column _name">{{ song.title }}</div>
+                <div class="st_column _surname">{{ song.created}}</div>
+                <div>
+                    <button>Edit</button>
+                    <button @click="deleteSong(song.id,index)">Delete</button>
+                </div>
             </div>
             </div>
             
         </div>
         </main>
 </template>
+
+<script>
+    export default {
+        data(){
+            return { songs: []}
+        },
+
+        mounted(){
+            this.getSongs();
+        },
+
+        methods: {
+            async getSongs() {
+                try {
+                const response = await fetch(`https://localhost:7089/api/Audio`, {
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(this.newUser),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const responseData = await response.json();
+                this.songs = responseData
+                console.log(this.songs)
+
+                } catch (error) {
+                console.error('Error creating user:', error);
+                // Handle errors here (e.g., show an error message)
+                }
+            },
+
+            async deleteSong(id,index) {
+                try {
+                const response = await fetch(`https://localhost:7089/api/Audio/${id}`, {
+                    method:'DELETE',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                } catch (error) {
+                console.error('Error creating user:', error);
+                // Handle errors here (e.g., show an error message)
+                }
+
+                this.songs.splice(index,1)
+            },
+        }
+    }
+</script>
 
 <style lang="scss">
 h1{
