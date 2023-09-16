@@ -33,6 +33,15 @@ namespace WebAPI.Controllers
             return audio == null ? NotFound() : Ok(audio);
         }
 
+        [HttpGet("{userId}")]
+        [ProducesResponseType(typeof(AudioModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByUser(int userId)
+        {
+            var audio = await _context.Audios.Where(audio => audio.UserId == userId).ToListAsync();
+            return audio == null ? NotFound() : Ok(audio);
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(AudioModel model)

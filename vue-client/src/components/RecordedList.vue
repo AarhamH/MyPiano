@@ -33,14 +33,41 @@
             return { songs: []}
         },
 
-        mounted(){
-            this.getSongs();
+        async mounted(){
+            let userId= await this.getUserId();
+            this.getSongs(userId);
+            
         },
 
         methods: {
-            async getSongs() {
+            async getUserId() {
+                let userId;
                 try {
-                const response = await fetch(`https://localhost:7089/api/Audio`, {
+                const response = await fetch(`https://localhost:7089/api/Auth/user`, {
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const content = await response.json();
+                userId = content.id;
+                } catch (error) {
+                console.error('Error creating user:', error);
+                // Handle errors here (e.g., show an error message)
+                }
+
+                console.log(userId)
+                return userId;
+            },
+
+            async getSongs(userId) {
+                try {
+                const response = await fetch(`https://localhost:7089/api/Audio/${userId}`, {
                     headers: {
                     'Content-Type': 'application/json',
                     },
