@@ -49,12 +49,13 @@
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
+          await router.push('/login');
+
 
          } catch (error) {
           console.error('Error creating user:', error);
           // Handle errors here (e.g., show an error message)
         }
-        await router.push('/login');
       },
     },
   };

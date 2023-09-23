@@ -13,14 +13,14 @@ const router = createRouter({
       meta: { hideHeader: true }, // Add this meta field        
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: LoginView,
       meta: { hideHeader: true }, // Add this meta field        
 
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: HomeView
     },

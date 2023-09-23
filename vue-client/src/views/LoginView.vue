@@ -49,13 +49,14 @@
 
           // Handle success (e.g., show a success message, clear the form)
           console.log('User logged in successfully:', responseData);
+          await router.push('/home');
+
 
           // Optionally, you can redirect the user to a different page or update the UI as needed.
         } catch (error) {
           console.error('Error logging user:', error);
           // Handle errors here (e.g., show an error message)
         }
-        await router.push('/');
       },
     },
   };
