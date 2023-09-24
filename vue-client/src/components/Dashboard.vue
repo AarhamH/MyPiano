@@ -27,6 +27,7 @@ import { useRoute } from 'vue-router';
 
 const isChecked = ref(false);
 export let isSustained;
+export let doPopup = ref(false);
 const metronome  = ref(false);
 
 const route = useRoute();
@@ -42,12 +43,19 @@ export default {
     const handleCheckboxChange = () => {
       if (!isChecked.value) {
         console.log("recording starting");
+
         Tone.start(); // Ensure audio context is started
         props.synth.connect(props.recorder); // Connect the synth to the recorder
         props.recorder.start(); // Start recording
       } else {
         console.log("recording stopping");
-        setTimeout(async () => { 
+        doPopup.value = true;
+      }
+      isChecked.value = !isChecked.value;
+    };
+
+    function doRecord () {
+      setTimeout(async () => { 
           // the recorded audio is returned as a blob
           const recording = await props.recorder.stop();
           // download the recording by creating an anchor element and blob URL
@@ -57,9 +65,7 @@ export default {
           anchor.href = url;
           anchor.click();
         }, 400);
-      }
-      isChecked.value = !isChecked.value;
-    };
+}
 
     const handleSustain = () => {
       if (!isSustained) {
@@ -73,7 +79,7 @@ export default {
     const isControlBoardVisible = () => {
      // Replace 'yourRouteName' with the actual name of the route where you want to display the control board
       return route.name === 'home';
-};
+    };
 
     // Start audio context when the component is mounted
     onMounted(() => {
@@ -82,13 +88,14 @@ export default {
 
     return {
       isChecked,
+      doPopup,
       isSustained,
       handleCheckboxChange,
       handleSustain,
-      isControlBoardVisible
+      isControlBoardVisible,
+      doRecord,
     };
   },
 };
-</script> 
-
+</script>
   
