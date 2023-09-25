@@ -85,5 +85,37 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
+        [HttpPost("upload")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            // Check if a file was provided
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            // Get the file name
+            string fileName = file.FileName;
+
+            // Specify the folder where you want to save the file
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+            // Create the folder if it doesn't exist
+            Directory.CreateDirectory(folderPath);
+
+            // Combine the folder path with the file name
+            string filePath = Path.Combine(folderPath, fileName);
+
+            // Save the file to the specified path
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok("File uploaded successfully.");
+        }
+
     }
 }
