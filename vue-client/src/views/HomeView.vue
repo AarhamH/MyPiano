@@ -19,9 +19,11 @@
   import RecordedList from '../components/RecordedList.vue';
   import CreateRecordPopup from '../components/CreateRecordPopup.vue';
 
-  const volume = new Tone.Volume(0).toDestination();
+  export const volume = new Tone.Volume(0).toDestination();
   const synth = new Tone.PolySynth().connect(volume);
   const recorder = new Tone.Recorder();
+  const route = useRoute()
+
 
   export default {
     data() {
@@ -37,12 +39,6 @@
     setup() {
       const word = "yes";
       const bool = true;
-      const route = useRoute()
-      console.log(theUserId);
-      if(!bool)
-      {
-        volume.volume.value =-Infinity;
-      }
       return {synth, recorder, word, bool, route, doPopup}
     },
 
@@ -82,8 +78,7 @@
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-          await router.push('/login');
-
+          window.location.reload()
 
          } catch (error) {
           console.error('Error creating user:', error);

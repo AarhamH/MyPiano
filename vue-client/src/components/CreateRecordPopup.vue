@@ -9,9 +9,15 @@
   </template>
   
   <script>
+import { onMounted } from 'vue';
+import { volume } from '../views/HomeView.vue';
+
   export default {
-    setup() {
-      },
+    setup () {
+        onMounted(() => {
+            volume.volume.value = -Infinity;
+        })
+    }
   };
   </script>
 
