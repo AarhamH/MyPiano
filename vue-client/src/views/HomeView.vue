@@ -1,41 +1,62 @@
 <template>
   <Dashboard :word="word" :synth="synth" :recorder="recorder "/>
   <CreateRecordPopup v-if="doPopup">
-    <h2>yes</h2>
-    <button @click="doRecord">Create</button>
+    <h2>Record the song?</h2>
+    <input type="title" id="title" v-model="newRecord.title" required />
+    <button @click="createRecord">Create</button>
   </CreateRecordPopup>
   <Piano v-if="isHome" :synth="synth"/>
-    {{ message }}
   <RecordedList/>
 </template>
 
-<script setup>
+<script>
   import Dashboard from '../components/Dashboard.vue';
-  import { doPopup } from '../components/Dashboard.vue';
   import Piano from '../components/Piano.vue'
+  import { doPopup } from '../components/Dashboard.vue';
   import { useRoute } from 'vue-router';
+  import { theUserId } from '../components/Header.vue';
   import * as Tone from "tone";
   import RecordedList from '../components/RecordedList.vue';
   import CreateRecordPopup from '../components/CreateRecordPopup.vue';
 
-  const synth = new Tone.PolySynth().toDestination();
+  const volume = new Tone.Volume(0).toDestination();
+  const synth = new Tone.PolySynth().connect(volume);
   const recorder = new Tone.Recorder();
 
-  const word = "yes";
-  const bool = true;
-  const route = useRoute()
-  console.log(route.name)
+  export default {
+    data() {
+      return {
+        newRecord : {
+          title: '',
+          created: new Date(),
+          filePath: 'whatever',
+          userId: theUserId
+        }
+      }
+    },
+    setup() {
+      const word = "yes";
+      const bool = true;
+      const route = useRoute()
+      console.log(theUserId);
+      if(!bool)
+      {
+        volume.volume.value =-Infinity;
+      }
+      return {synth, recorder, word, bool, route, doPopup}
+    },
 
-  const isHome =()=>
-  {
-    if(route.name === 'home')
-    {
-      return true;
-    }
-    return false;
-  }
-
-  const doRecord = () => {
+    methods: {
+      isHome() 
+      {
+        if(route.name === 'home')
+        {
+          this.turnOffPiano();
+          return true;
+        }
+        return false;
+      },
+      async doRecord () {
       setTimeout(async () => { 
           // the recorded audio is returned as a blob
           const recording = await recorder.stop();
@@ -46,9 +67,38 @@
           anchor.href = url;
           anchor.click();
         }, 400);
-}
+      },
+
+      async createRecord() {
+        try {
+          const response = await fetch(`https://localhost:7089/api/Audio`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.newRecord),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          await router.push('/login');
 
 
+         } catch (error) {
+          console.error('Error creating user:', error);
+          // Handle errors here (e.g., show an error message)
+        }
+      },
+    },
+
+    components: {
+      Dashboard,
+      Piano,
+      CreateRecordPopup,
+      RecordedList
+    }
+  };
 </script>
 
 <style>

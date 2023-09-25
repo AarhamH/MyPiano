@@ -27,12 +27,10 @@ import { useRoute } from 'vue-router';
 
 const isChecked = ref(false);
 export let isSustained;
-export let doPopup = ref(false);
+export const doPopup = ref(false);
 const metronome  = ref(false);
 
 const route = useRoute();
-
-const metronomeSound = new Tone.PolySynth().toDestination();
 export default {
   props: {
     recorder: Object,
@@ -53,19 +51,6 @@ export default {
       }
       isChecked.value = !isChecked.value;
     };
-
-    function doRecord () {
-      setTimeout(async () => { 
-          // the recorded audio is returned as a blob
-          const recording = await props.recorder.stop();
-          // download the recording by creating an anchor element and blob URL
-          const url = URL.createObjectURL(recording);
-          const anchor = document.createElement("a");
-          anchor.download = "recording.webm";
-          anchor.href = url;
-          anchor.click();
-        }, 400);
-}
 
     const handleSustain = () => {
       if (!isSustained) {
@@ -93,7 +78,6 @@ export default {
       handleCheckboxChange,
       handleSustain,
       isControlBoardVisible,
-      doRecord,
     };
   },
 };

@@ -14,11 +14,15 @@
 <script>
   import { onMounted, ref } from 'vue';
   import { RouterLink } from 'vue-router';
+
+  export const message = ref('You are not logged in');
+  export const theUserId = ref(-1);
+
+
   export default
   {
     setup()
     {
-      const message = ref('You are not logged in');
 
       onMounted( async () => {
         const response = await fetch(`https://localhost:7089/api/Auth/user`, {
@@ -33,9 +37,10 @@
         console.log(content)
 
         message.value = content.username;
+        theUserId.value = content.id;
       })
 
-      return { message }
+      return { message, theUserId }
     }
   }
 
