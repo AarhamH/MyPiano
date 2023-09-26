@@ -19,10 +19,15 @@
                 <div class="st_column _surname">{{ song.created}}</div>
                 <div class="st_column _surname">{{ song.filePath}}</div>
                 <div>
-                    <button>Edit</button>
+                  <audio ref="audioPlayer" id="audioPlayer" controls autoplay>
+                    <source src="src\components\xx.webm" type="audio/webm">
+                  </audio>
+                    <button @click="playAudio">Play</button>
+
                     <button @click="deleteSong(song.id,index)">Delete</button>
                 </div>
             </div>
+
             </div>
             
         </div>
@@ -32,7 +37,7 @@
 <script>
     export default {
         data(){
-            return { songs: []}
+            return { songs: [], file: '/xx.webm'}
         },
 
         async mounted(){
@@ -109,6 +114,11 @@
                 }
 
                 this.songs.splice(index,1)
+            },
+
+            playAudio() {
+              const audioPlayer = this.$refs.audioPlayer;
+              audioPlayer.play();
             },
         }
     }
@@ -216,4 +226,9 @@ pre{
 .st_column{
   padding: 10px 20px;
 }
+
+audio {
+  width: 22%;
+}
+
 </style>

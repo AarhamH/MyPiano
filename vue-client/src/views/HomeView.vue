@@ -71,7 +71,7 @@
 
             const responseData = await response.json();
             console.log(responseData)
-            this.createRecord(responseData.FilePath);
+            this.createRecord(responseData.filePath);
 
         } catch (error) {
             console.error("Error:", error);
