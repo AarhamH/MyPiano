@@ -114,8 +114,7 @@ namespace WebAPI.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            return Ok("File uploaded successfully.");
+            return Ok(new {FilePath = filePath});
         }
-
     }
 }

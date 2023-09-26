@@ -17,7 +17,7 @@
                 <div class="st_column _rank">{{ song.id }}</div>
                 <div class="st_column _name">{{ song.title }}</div>
                 <div class="st_column _surname">{{ song.created}}</div>
-                <div class="st_column _surname">{{ song.filepath}}</div>
+                <div class="st_column _surname">{{ song.filePath}}</div>
                 <div>
                     <button>Edit</button>
                     <button @click="deleteSong(song.id,index)">Delete</button>

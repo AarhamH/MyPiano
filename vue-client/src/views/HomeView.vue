@@ -33,7 +33,7 @@
         newRecord : {
           title: '',
           created: new Date(),
-          filePath: 'whatever',
+          filePath: '',
           userId: theUserId
         }
       }
@@ -68,14 +68,19 @@
             } else {
                 console.error("Error uploading file.");
             }
+
+            const responseData = await response.json();
+            console.log(responseData)
+            this.createRecord(responseData.FilePath);
+
         } catch (error) {
             console.error("Error:", error);
         }
 
-        this.createRecord();
       },
 
-      async createRecord() {
+      async createRecord(path) {
+        this.newRecord.filePath = path;
         try {
           const response = await fetch(`https://localhost:7089/api/Audio`, {
             method: 'POST',
