@@ -41,9 +41,6 @@ export default {
     const handleCheckboxChange = () => {
       if (!isChecked.value) {
         console.log("recording starting");
-
-        Tone.start(); // Ensure audio context is started
-        props.synth.connect(props.recorder); // Connect the synth to the recorder
         props.recorder.start(); // Start recording
       } else {
         console.log("recording stopping");

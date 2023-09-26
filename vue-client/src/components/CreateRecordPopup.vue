@@ -11,11 +11,17 @@
   <script>
 import { onMounted } from 'vue';
 import { volume } from '../views/HomeView.vue';
+import { synth } from '../views/HomeView.vue';
+import { recorder } from '../views/HomeView.vue';
 
+  export let recording;
   export default {
     setup () {
-        onMounted(() => {
+        onMounted(async () => {
             volume.volume.value = -Infinity;
+            synth.disconnect(recorder);
+            recording = await recorder.stop();
+
         })
     }
   };

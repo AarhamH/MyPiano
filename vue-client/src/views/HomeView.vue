@@ -15,14 +15,16 @@
   import { doPopup } from '../components/Dashboard.vue';
   import { useRoute } from 'vue-router';
   import { theUserId } from '../components/Header.vue';
+  import { recording } from '../components/CreateRecordPopup.vue';
   import * as Tone from "tone";
   import RecordedList from '../components/RecordedList.vue';
   import CreateRecordPopup from '../components/CreateRecordPopup.vue';
 
   export const volume = new Tone.Volume(0).toDestination();
-  const synth = new Tone.PolySynth().toDestination();
-  const recorder = new Tone.Recorder();
-  const route = useRoute()
+  export const synth = new Tone.PolySynth().connect(volume);
+  export const recorder = new Tone.Recorder();
+  const route = useRoute();
+  synth.connect(recorder);
 
 
   export default {
@@ -38,8 +40,7 @@
     },
     setup() {
       const word = "yes";
-      const bool = true;
-      return {synth, recorder, word, bool, route, doPopup}
+      return {synth, recorder, word, route, doPopup}
     },
 
     methods: {
@@ -52,20 +53,7 @@
         }
         return false;
       },
-      async doRecord () {
-      setTimeout(async () => { 
-          // the recorded audio is returned as a blob
-          // download the recording by creating an anchor element and blob URL
-          const url = URL.createObjectURL(recording);
-          const anchor = document.createElement("a");
-          anchor.download = "recording.webm";
-          anchor.href = url;
-          anchor.click();
-        }, 400);
-      },
-
       async uploadAudioFile() {
-        const recording = await recorder.stop();
         const formData = new FormData();
         formData.append("file", recording, this.newRecord.title+".webm"); // Replace "audioFileBlob" with your Blob
 
@@ -101,8 +89,7 @@
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
           window.location.reload();
-          volume.volume.value = 0;
-
+          
          } catch (error) {
           console.error('Error creating user:', error);
           // Handle errors here (e.g., show an error message)
