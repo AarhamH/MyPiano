@@ -1,9 +1,5 @@
 <template>
   <div class="piano">
-    <div class="checkbox-apple">
-      <input class="yep" id="check-apple" type="checkbox" @change="handleCheckboxChange">
-      <label for="check-apple"></label>
-    </div>
     <div
       v-for="(key, index) in keyMappings"
       :key="index"
@@ -18,7 +14,6 @@
 import { defineProps, ref } from 'vue'
 import * as Tone from "tone";
 import { isSustained } from './Dashboard.vue';
-import Dashboard from './Dashboard.vue'
 
 const props = defineProps({
     synth:Tone.PolySynth
