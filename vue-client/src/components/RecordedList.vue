@@ -18,7 +18,12 @@
           <div class="st_column _surname">{{ song.created }}</div>
           <div class="st_column _surname">{{ song.filePath }}</div>
           <div>
-            <audio ref="audioPlayer" id="audioPlayer" controls:display="'none'" autoplay></audio>
+            <audio
+              ref="audioPlayer"
+              id="audioPlayer"
+              controls:display="'none'"
+              autoplay
+            ></audio>
             <button @click="playAudio(song.title)">Play</button>
             <button @click="deleteSong(song.id, index)">Delete</button>
           </div>
@@ -29,182 +34,159 @@
 </template>
 
 <script>
-    export default {
-        data(){
-            return { songs: [], file: '/xx.webm'}
+import { makeApiRequest } from "../utils/useFetch";
+export default {
+  data() {
+    return { songs: [] };
+  },
+
+  async mounted() {
+    let userId = await this.getUserId();
+    this.getSongs(userId);
+  },
+
+  methods: {
+    async getUserId() {
+      let userId;
+
+      let url = `https://localhost:7089/api/Auth/user`;
+      let options = {
+        headers: {
+          "Content-Type": "application/json",
         },
+        method: "GET",
+        credentials: "include",
+      };
 
-        async mounted(){
-            let userId= await this.getUserId();
-            this.getSongs(userId);
-            
+      const { responseFlag, responseData } = await makeApiRequest(url, options);
+      if (responseFlag) {
+        userId = responseData.id;
+      }
+      return userId;
+    },
+
+    async getSongs(userId) {
+      let url = `https://localhost:7089/api/Audio/${userId}`;
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
         },
+        method: "GET",
+        body: JSON.stringify(this.newUser),
+      };
 
-        methods: {
-            async getUserId() {
-                let userId;
-                try {
-                const response = await fetch(`https://localhost:7089/api/Auth/user`, {
-                    headers: {
-                    'Content-Type': 'application/json',
-                    },
-                    credentials: 'include'
-                });
+      const { responseFlag, responseData } = await makeApiRequest(url, options);
+      if (responseFlag) {
+        this.songs = responseData;
+      }
+    },
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                
-                const content = await response.json();
-                userId = content.id;
-                } catch (error) {
-                console.error('Error creating user:', error);
-                // Handle errors here (e.g., show an error message)
-                }
+    async deleteSong(id, index) {
+      let url = `https://localhost:7089/api/Audio/${id}`;
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
 
-                console.log(userId)
-                return userId;
-            },
+      const { responseFlag, responseData } = await makeApiRequest(url, options);
+      if (responseFlag) {
+        this.songs.splice(index, 1);
+      }
+    },
 
-            async getSongs(userId) {
-                try {
-                const response = await fetch(`https://localhost:7089/api/Audio/${userId}`, {
-                    headers: {
-                    'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(this.newUser),
-                });
+    playAudio(audioFileName) {
+      const apiUrl = `https://localhost:7089/api/Audio/audio/${audioFileName}.webm`;
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                
-                const responseData = await response.json();
-                this.songs = responseData
-                console.log(this.songs)
+      const audioPlayer = document.getElementById("audioPlayer");
 
-                } catch (error) {
-                console.error('Error creating user:', error);
-                // Handle errors here (e.g., show an error message)
-                }
-            },
+      audioPlayer.src = apiUrl;
 
-            async deleteSong(id,index) {
-                try {
-                const response = await fetch(`https://localhost:7089/api/Audio/${id}`, {
-                    method:'DELETE',
-                    headers: {
-                    'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                } catch (error) {
-                console.error('Error creating user:', error);
-                // Handle errors here (e.g., show an error message)
-                }
-
-                this.songs.splice(index,1)
-            },
-
-            playAudio(audioFileName) {
-              // Replace 'YOUR_API_URL' with the actual URL of your API
-              const apiUrl = `https://localhost:7089/api/Audio/audio/${audioFileName}.webm`;
-
-              // Get a reference to the audio element
-              const audioPlayer = document.getElementById('audioPlayer');
-
-              // Set the audio source to your API URL
-              audioPlayer.src = apiUrl;
-
-              // Load and play the audio
-              audioPlayer.load();
-              audioPlayer.play();
-          },
-        }
-    }
+      audioPlayer.load();
+      audioPlayer.play();
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-h1{
+h1 {
   font-weight: 400;
 }
-a{
+a {
   color: inherit;
 }
-p{
-  margin-top: .7em;
+p {
+  margin-top: 0.7em;
 }
-.warning{
-  color: rgb(62,148,236);
+.warning {
+  color: rgb(62, 148, 236);
 }
-.st_viewport{
+.st_viewport {
   max-height: 500px;
   overflow: auto;
 }
 
-[data-table_id="1"]{
-  background-color: rgb(255,115,0);
+[data-table_id="1"] {
+  background-color: rgb(255, 115, 0);
 }
-[data-table_id="2"]{
-  background-color: rgb(61,53,39);
-  color: rgb(220,220,220);
+[data-table_id="2"] {
+  background-color: rgb(61, 53, 39);
+  color: rgb(220, 220, 220);
 }
-[data-table_id="3"]{
-  background-color: rgba(168,189,4, .8);
+[data-table_id="3"] {
+  background-color: rgba(168, 189, 4, 0.8);
 }
 
-._rank{
+._rank {
   min-width: 80px;
 }
-._id{
+._id {
   min-width: 60px;
 }
-._name{
+._name {
   min-width: 130px;
 }
-._surname{
+._surname {
   min-width: 130px;
 }
-._year{
+._year {
   min-width: 80px;
 }
-._section{
+._section {
   min-width: 130px;
 }
 
-pre{
+pre {
   overflow: auto;
 }
 
 /** Sticky table styles **/
-.st_viewport{
-  background-color: rgb(62,148,236);
-  color: rgb(27,30,36);
+.st_viewport {
+  background-color: rgb(62, 148, 236);
+  color: rgb(27, 30, 36);
   margin: 20px 0;
 }
 /* ##   header */
-.st_table_header{
+.st_table_header {
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
   z-index: 1;
-  background-color: rgb(27,30,36);
-  color: rgb(220,220,220);
+  background-color: rgb(27, 30, 36);
+  color: rgb(220, 220, 220);
 }
-.st_table_header h2{
+.st_table_header h2 {
   font-weight: 400;
   margin: 0 20px;
   padding: 20px 0 0;
 }
-.st_table_header .st_row{
-  color: rgba(220,220,220, .7);  
+.st_table_header .st_row {
+  color: rgba(220, 220, 220, 0.7);
 }
 /* ##  table */
-.st_table{
+.st_table {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -212,27 +194,26 @@ pre{
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 /* #   row */
-.st_row{
+.st_row {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   margin: 0;
 }
-.st_table .st_row:nth-child(even){
-  background-color: rgba(0,0,0, .1)
+.st_table .st_row:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 /* #   column */
-.st_column{
+.st_column {
   padding: 10px 20px;
 }
 
 audio {
   width: 22%;
 }
-
 </style>

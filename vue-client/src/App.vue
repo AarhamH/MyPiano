@@ -1,25 +1,22 @@
 <script setup>
-import { useRoute } from 'vue-router';
-import HomeView from './views/HomeView.vue';
-import Header from './components/Header.vue';
+import { useRoute } from "vue-router";
+import Header from "./components/Header.vue";
 
 const route = useRoute();
 
-console.log(route.name)
+console.log(route.name);
 
 const isHome = () => {
-  if(route.name === 'home')
-  {
+  if (route.name === "home") {
     return true;
   }
   return false;
-}
+};
 </script>
 
 <template>
-  <Header v-if="isHome()"/>
-  <RouterView/>
+  <Header v-if="isHome()" />
+  <RouterView />
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -22,8 +22,8 @@
   </template>
   
   <script>
-  import { useRouter } from 'vue-router';    
   import router from '../router';
+  import { makeApiRequest } from '../utils/useFetch';
 
   export default {
     data() {
@@ -37,25 +37,17 @@
     },
     methods: {
       async createUser() {
-        try {
-          const response = await fetch(`https://localhost:7089/api/Auth/register`, {
+        let url = `https://localhost:7089/api/Auth/register`
+        const options = {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(this.newUser),
-          });
+          };
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          await router.push('/login');
-
-
-         } catch (error) {
-          console.error('Error creating user:', error);
-          // Handle errors here (e.g., show an error message)
-        }
+          const { responseFlag, responseData } = await makeApiRequest(url,options);
+          if(responseFlag) { await router.push('/'); }
       },
     },
   };

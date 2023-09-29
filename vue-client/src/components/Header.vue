@@ -1,49 +1,48 @@
 <template>
-    <header>
-        <nav class="container">
-            <div class="title">
-                <h1>MyPiano</h1>
-            </div>
-            <ul class="nav-routes">
-                Hello {{ message }}!
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav class="container">
+      <div class="title">
+        <h1>MyPiano</h1>
+      </div>
+      <ul class="nav-routes">
+        Hello
+        {{
+          message
+        }}!
+      </ul>
+    </nav>
+  </header>
 </template>
 
 <script>
-  import { onMounted, ref } from 'vue';
-  import { RouterLink } from 'vue-router';
+import { onMounted, ref } from "vue";
+import { makeApiRequest } from "../utils/useFetch";
+import { RouterLink } from "vue-router";
 
-  export const message = ref('You are not logged in');
-  export const theUserId = ref(-1);
+export const message = ref("You are not logged in");
+export const theUserId = ref(-1);
 
+export default {
+  setup() {
+    onMounted(async () => {
+      let url = `https://localhost:7089/api/Auth/user`;
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      };
 
-  export default
-  {
-    setup()
-    {
+      const { responseFlag, responseData } = await makeApiRequest(url, options);
+      if (responseFlag) {
+        message.value = responseData.username;
+        theUserId.value = responseData.id;
+      }
+    });
 
-      onMounted( async () => {
-        const response = await fetch(`https://localhost:7089/api/Auth/user`, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include'
-
-          });
-
-        const content = await response.json();
-        console.log(content)
-
-        message.value = content.username;
-        theUserId.value = content.id;
-      })
-
-      return { message, theUserId }
-    }
-  }
-
+    return { message, theUserId };
+  },
+};
 </script>
 
 <style>

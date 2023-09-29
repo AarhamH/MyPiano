@@ -19,7 +19,7 @@
 
 <script>
   import router from '../router';
-
+  import { makeApiRequest } from '../utils/useFetch';
   export default {
     data() {
       return {
@@ -31,32 +31,20 @@
     },
     methods: {
       async loginUser() {
-        try {
-          const response = await fetch(`https://localhost:7089/api/Auth/login`, {
+        let url = `https://localhost:7089/api/Auth/login`;
+        const options = {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             credentials: 'include',
             body: JSON.stringify(this.logUser),
-          });
+          };
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
+        const { responseFlag, responseData } = await makeApiRequest(url,options);
 
-          const responseData = await response.json();
-
-          // Handle success (e.g., show a success message, clear the form)
-          console.log('User logged in successfully:', responseData);
-          await router.push('/home');
-
-
-          // Optionally, you can redirect the user to a different page or update the UI as needed.
-        } catch (error) {
-          console.error('Error logging user:', error);
-          // Handle errors here (e.g., show an error message)
-        }
+        if(responseFlag) { await router.push('/home');}
+        
       },
     },
   };
