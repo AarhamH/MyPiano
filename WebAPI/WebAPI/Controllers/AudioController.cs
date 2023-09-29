@@ -77,9 +77,31 @@ namespace WebAPI.Controllers
         {
             var audioToDelete = await _context.Audios.FindAsync(id);
 
+            var audioTitle = audioToDelete.Title+".webm";
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+            string totlaPath = Path.Combine(folderPath, audioTitle);
+
+            try
+            {
+                // Delete the file
+                if (System.IO.File.Exists(totlaPath))
+                {
+                    System.IO.File.Delete(totlaPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, e.g., log the error
+                Console.WriteLine($"Error deleting file: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+
             if (audioToDelete == null) { return NotFound(); }
 
             _context.Audios.Remove(audioToDelete);
+
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -115,6 +137,24 @@ namespace WebAPI.Controllers
             }
 
             return Ok(new {FilePath = filePath});
+        }
+
+
+        [HttpGet("audio/{audioFileName}")]
+        public IActionResult GetAudio(string audioFileName)
+        {
+            // Determine the file path based on the audioFileName
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", audioFileName);
+
+            // Check if the file exists
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            // Return the audio file as a stream
+            var fileStream = new FileStream(filePath, FileMode.Open);
+            return File(fileStream, "audio/mpeg"); // Change the MIME type as needed
         }
     }
 }

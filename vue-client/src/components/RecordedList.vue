@@ -1,37 +1,31 @@
 <template>
-    <main class="st_viewport">
-        <div class="st_wrap_table" data-table_id="0">
-            <header class="st_table_header">
-            <h2>Table header one</h2>
-            <div class="st_row">
-                <div class="st_column _rank">ID</div>
-                <div class="st_column _name">Title</div>
-                <div class="st_column _surname">Date of Creation</div>
-                <div class="st_column _surname">Path</div>
-                <div class="st_column _surname">Action</div>
-
-            </div>
-            </header>
-            <div class="st_table">
-            <div class="st_row" v-for="(song,index) in this.songs" :key="index">
-                <div class="st_column _rank">{{ song.id }}</div>
-                <div class="st_column _name">{{ song.title }}</div>
-                <div class="st_column _surname">{{ song.created}}</div>
-                <div class="st_column _surname">{{ song.filePath}}</div>
-                <div>
-                  <audio ref="audioPlayer" id="audioPlayer" controls autoplay>
-                    <source src="src\components\xx.webm" type="audio/webm">
-                  </audio>
-                    <button @click="playAudio">Play</button>
-
-                    <button @click="deleteSong(song.id,index)">Delete</button>
-                </div>
-            </div>
-
-            </div>
-            
+  <main class="st_viewport">
+    <div class="st_wrap_table" data-table_id="0">
+      <header class="st_table_header">
+        <h2>Table header one</h2>
+        <div class="st_row">
+          <div class="st_column _rank">ID</div>
+          <div class="st_column _name">Title</div>
+          <div class="st_column _surname">Date of Creation</div>
+          <div class="st_column _surname">Path</div>
+          <div class="st_column _surname">Action</div>
         </div>
-        </main>
+      </header>
+      <div class="st_table">
+        <div class="st_row" v-for="(song, index) in songs" :key="index">
+          <div class="st_column _rank">{{ song.id }}</div>
+          <div class="st_column _name">{{ song.title }}</div>
+          <div class="st_column _surname">{{ song.created }}</div>
+          <div class="st_column _surname">{{ song.filePath }}</div>
+          <div>
+            <audio ref="audioPlayer" id="audioPlayer" controls:display="'none'" autoplay></audio>
+            <button @click="playAudio(song.title)">Play</button>
+            <button @click="deleteSong(song.id, index)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -116,10 +110,20 @@
                 this.songs.splice(index,1)
             },
 
-            playAudio() {
-              const audioPlayer = this.$refs.audioPlayer;
+            playAudio(audioFileName) {
+              // Replace 'YOUR_API_URL' with the actual URL of your API
+              const apiUrl = `https://localhost:7089/api/Audio/audio/${audioFileName}.webm`;
+
+              // Get a reference to the audio element
+              const audioPlayer = document.getElementById('audioPlayer');
+
+              // Set the audio source to your API URL
+              audioPlayer.src = apiUrl;
+
+              // Load and play the audio
+              audioPlayer.load();
               audioPlayer.play();
-            },
+          },
         }
     }
 </script>
