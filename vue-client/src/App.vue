@@ -19,4 +19,10 @@ const isHome = () => {
   <RouterView />
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap');
+
+* {
+  font-family: "Quicksand"
+}
+</style>

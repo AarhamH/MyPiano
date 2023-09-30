@@ -48,7 +48,7 @@
       <button class="button1">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </button>
-      <button class="button2">Sign Up</button>
+      <button @click="goSignup" class="button2">Sign Up</button>
     </div>
     <button class="button3">Forgot Password</button>
   </form>
@@ -84,6 +84,10 @@ export default {
         await router.push("/home");
       }
     },
+
+    async goSignup() {
+      await router.push("/signup")
+    }
   },
 };
 </script>
