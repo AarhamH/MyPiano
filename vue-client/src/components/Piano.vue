@@ -5,7 +5,9 @@
       :key="index"
       :class="[key.isBlack ? 'black-key' : 'white-key']"
     >
-      {{ key.key }}
+      <span :class="[key.isBlack ? 'black-text' : 'white-text']">
+        {{ key.key }}
+      </span>
     </div>
     </div>
 </template>
@@ -94,25 +96,48 @@ window.addEventListener("keyup", (event) => {
 .piano {
   display: flex;
   justify-content: center;
+  padding-top: 20px;
+  margin-left: 280px ;
+  margin-right: 280px;
+
+  padding-bottom: 20px;
+
+  background-color:#171717 ;
 }
 .white-key {
-  border: 1px solid #000000;
   border-radius: 0px 0px 10px 10px;
   width: 100px;
   height: 400px;
-  background-color: white;
-  color: red;
+  background-color: ivory;
+  border-radius:0 0 5px 5px;
+  box-shadow:-1px 0 0 rgba(255,255,255,0.8) inset,0 0 5px #ccc inset,0 0 3px rgba(0,0,0,0.7);
   text-align: center;
 }
 .black-key {
-  background-color: black;
+  box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -5px 2px 3px rgba(0,0,0,0.6) inset,0 2px 4px rgba(0,0,0,0.5);  
   border-radius: 0px 0px 10px 10px;
+  background:linear-gradient(45deg,#222 0%,#555 100%);
   width: 60px;
   height: 250px;
   margin-left: -30px;
   margin-right: -30px;
   z-index: 1;
-  color: red;
   text-align: center;
+}
+
+.white-text {
+  margin: auto;
+  width: 50%;
+  padding-top: 350px;
+  display: table;
+  vertical-align: bottom;
+}
+
+.black-text {
+  padding-top: 500px;
+  top: 5px; /* Adjust the top position as needed */
+  left: 0;
+  right: 0;
+  color: white; /* Set the color for the top text */
 }
 </style>
