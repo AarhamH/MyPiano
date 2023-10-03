@@ -1,37 +1,22 @@
 <template>
   <div class="control-board" v-if="isControlBoardVisible">
-    <div class="button-container">
-      <div class="checkbox-apple">
-        <input
-          class="yep"
-          id="check-apple-record"
-          type="checkbox"
-          @change="handleCheckboxChange"
-        />
-        Record
-        <label for="check-apple-record"></label>
-      </div>
-      <div class="checkbox-apple">
-        <input
-          class="yep"
-          id="check-apple-sustain"
-          type="checkbox"
-          @change="handleSustain"
-        />
-        Sustain?
-        <label for="check-apple-sustain"></label>
-      </div>
-      <div class="checkbox-apple">
-        <input
-          class="yep"
-          id="check-apple-sustain"
-          type="checkbox"
-          @change="handleMetronome"
-        />
-        Metronome
-        <label for="check-apple-sustain"></label>
-      </div>
-    </div>
+    <label class="switch">
+      <input class="checkbox" type="checkbox" @change="handleCheckboxChange">
+      <span class="slider"></span>
+      <a>Record</a>
+    </label>
+
+    <label class="switch">
+      <input class="checkbox" type="checkbox" @change="handleSustain">
+      <span class="slider"></span>
+      <a>Sustain</a>
+    </label>
+
+    <label class="switch">
+      <input class="checkbox" type="checkbox" @change="handleMetronome">
+      <span class="slider"></span>
+      <a>Metronome</a>
+    </label>
   </div>
 </template>
 
@@ -87,3 +72,61 @@ export default {
   },
 };
 </script>
+
+<style>
+/* Switch - Container */
+.control-board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+.switch {
+  --primary: #50F080;
+  --secondary: #F05050;
+  --dark: #505050;
+  --light: #D0D0D0;
+  background-color: var(--dark);
+  position: relative;
+  display: inline-block;
+  border-radius: 1rem;
+  cursor: pointer;
+  width: 50px;
+  height: 25px;
+  margin-left: 50px;
+}
+
+/* Change the color of the <a> element inside the switch */
+.switch a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Change the color to your desired color value */
+}
+
+/* Hide default HTML checkbox */
+.checkbox {
+  opacity: 0;
+  margin-bottom: 15px;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20%;
+  height: 45%;
+  transition: .4s;
+  border-radius: 100%;
+  transform: translateY(-50%);
+  border: 4px solid var(--dark);
+  background-color: var(--secondary);
+}
+
+.checkbox:checked + .slider {
+  background-color: var(--primary);
+  transform: translate(175%, -50%);
+}
+</style>
