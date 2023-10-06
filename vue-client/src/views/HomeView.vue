@@ -20,6 +20,9 @@ import * as Tone from "tone";
 import RecordedList from "../components/RecordedList.vue";
 import CreateRecordPopup from "../components/CreateRecordPopup.vue";
 import { makeApiRequest } from "../utils/useFetch";
+import ErrorView from "./ErrorView.vue";
+import router from '../router';
+
 
 export const volume = new Tone.Volume(0).toDestination();
 export const synth = new Tone.PolySynth().connect(volume);
@@ -88,7 +91,8 @@ export default {
     Piano,
     CreateRecordPopup,
     RecordedList,
-  },
+    ErrorView
+},
 };
 </script>
 

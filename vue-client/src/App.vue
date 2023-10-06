@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import Header from "./components/Header.vue";
+import ErrorView from "./views/ErrorView.vue";
 
 const route = useRoute();
 
