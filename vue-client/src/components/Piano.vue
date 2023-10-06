@@ -17,6 +17,7 @@
 import { defineProps, ref } from 'vue'
 import * as Tone from "tone";
 import { isSustained } from './Dashboard.vue';
+import { doPopup } from './Dashboard.vue';
 
 const props = defineProps({
     synth:Tone.PolySynth
@@ -104,7 +105,7 @@ const releaseNote = (note) => {
 
 window.addEventListener("keydown", (event) => {
   const keyMapping = keyMappings.find((mapping) => mapping.key === event.key);
-  if (keyMapping) {
+  if (keyMapping && !doPopup.value) {
     playNote(keyMapping.note);
     console.log(pressedKeys);
   }
