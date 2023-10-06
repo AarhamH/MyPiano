@@ -13,6 +13,13 @@
     </label>
 
     <label class="switch">
+      <audio
+              ref="audioPlayer"
+              id="audioPlayer"
+              controls:display="'none'" loop 
+              src="src\assets\metronome.mp3"         
+            >
+      </audio>
       <input class="checkbox" type="checkbox" @change="handleMetronome">
       <span class="slider"></span>
       <a>Metronome</a>
@@ -51,6 +58,20 @@ export default {
       isSustained = !isSustained;
     };
 
+    const handleMetronome = () => {
+      if(!metronome.value)
+      {
+        const audioPlayer = document.getElementById("audioPlayer");
+        audioPlayer.play();
+      }
+      else {
+        audioPlayer.pause();
+      }
+      metronome.value = !metronome.value;
+      console.log(metronome.value);
+
+    };
+
     const isControlBoardVisible = () => {
       // Replace 'yourRouteName' with the actual name of the route where you want to display the control board
       return route.name === "home";
@@ -65,8 +86,10 @@ export default {
       isChecked,
       doPopup,
       isSustained,
+      metronome,
       handleCheckboxChange,
       handleSustain,
+      handleMetronome,
       isControlBoardVisible,
     };
   },
