@@ -57,6 +57,10 @@
 <script>
 import router from "../router";
 import { makeApiRequest } from "../utils/useFetch";
+import { useStore } from "vuex";
+
+
+let store;
 export default {
   data() {
     return {
@@ -65,6 +69,9 @@ export default {
         password: "",
       },
     };
+  },
+  setup() {
+    store = useStore(); // Move this line to the component setup
   },
   methods: {
     async loginUser() {
@@ -81,13 +88,14 @@ export default {
       const { responseFlag, responseData } = await makeApiRequest(url, options);
 
       if (responseFlag) {
+        store.commit("SET_AUTH", true);        
         await router.push("/home");
       }
     },
 
     async goSignup() {
-      await router.push("/signup")
-    }
+      await router.push("/signup");
+    },
   },
 };
 </script>

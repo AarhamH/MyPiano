@@ -3,7 +3,6 @@ export async function makeApiRequest(url, options) {
     const response = await fetch(url, options);
     let responseFlag = response.ok;
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     let responseData;

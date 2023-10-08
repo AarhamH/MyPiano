@@ -155,7 +155,8 @@ window.addEventListener("keyup", (event) => {
 .active-black {
   box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -5px 2px 3px rgba(0,0,0,0.6) inset,0 2px 4px rgba(0,0,0,0.5);  
   border-radius: 0px 0px 10px 10px;
-  background-color: greenyellow;
+  background-color: #F05050;
+
   width: 60px;
   height: 250px;
   margin-left: -30px;
@@ -168,7 +169,7 @@ window.addEventListener("keyup", (event) => {
   border-radius: 0px 0px 10px 10px;
   width: 100px;
   height: 400px;
-  background-color: greenyellow;
+  background-color: #F05050;
   border-radius:0 0 5px 5px;
   box-shadow:-1px 0 0 rgba(255,255,255,0.8) inset,0 0 5px #ccc inset,0 0 3px rgba(0,0,0,0.7);
   text-align: center;

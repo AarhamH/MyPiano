@@ -2,14 +2,19 @@
   <header>
     <nav class="container">
       <div class="title">
-        <h1>MyPiano</h1>
+        <div class="logo-title">
+          <img class="piano-img" src="../assets/piano-logo.png"/>
+          <h1>MyPiano</h1>
+        </div>
       </div>
       <div class="action">
         <div class="profile" @click="menuToggle">
           <img src="../assets/icon.png" />
         </div>
         <div class="menu">
-          <h3>Hello {{ message }}</h3>
+          <h3>Username: {{  userName  }}</h3>
+          <h3>Email: {{  userName  }}</h3>
+
           <ul>
             <li>
               <img src="../assets/logout.png" /><a @click="clearCookie()"
@@ -27,12 +32,17 @@
 import { onMounted, ref } from "vue";
 import { makeApiRequest } from "../utils/useFetch";
 import router from "../router";
+import {useStore} from 'vuex';
 
-export const message = ref("You are not logged in");
+export const userName = ref("You are not logged in");
+export const Email = ref("You are not logged in");
+
+
 export const theUserId = ref(-1);
-
+let store;
 export default {
   setup() {
+    store = useStore();
     onMounted(async () => {
       let url = `https://localhost:7089/api/Auth/user`;
       const options = {
@@ -44,12 +54,13 @@ export default {
 
       const { responseFlag, responseData } = await makeApiRequest(url, options);
       if (responseFlag) {
-        message.value = responseData.username;
+        userName.value = responseData.username;
+        Email.value = responseData.email;
         theUserId.value = responseData.id;
       }
     });
 
-    return { message, theUserId };
+    return { userName, Email, theUserId };
   },
 
   methods: {
@@ -71,7 +82,8 @@ export default {
       const { responseFlag, responseData } = await makeApiRequest(url, options);
 
       if (responseFlag) {
-        await router.push("/");
+        store.commit("SET_AUTH", false);
+        window.location.reload();
       }
     },
   },
@@ -105,6 +117,14 @@ header {
     }
   }
 
+  .logo-title {
+    display: flex; /* Add this line to make the child elements align horizontally */
+    align-items: center; /* Vertically center the content */
+  }
+  .piano-img {
+    width: 40px;
+    padding: 10px;
+  }
   .action {
     position: fixed;
     top: 20px;
@@ -158,12 +178,11 @@ header {
   }
 
   .action .menu h3 {
-    width: 100%;
     text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: white;
-    line-height: 1.5em;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 300;
+    color: #888;
   }
 
   .action .menu ul li {

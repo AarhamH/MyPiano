@@ -1,9 +1,6 @@
 <template>
   <Dashboard :synth="synth" :recorder="recorder" />
-  <CreateRecordPopup v-if="doPopup">
-    <h2>Record the song?</h2>
-    <input type="title" id="title" v-model="newRecord.title" required />
-    <button @click="uploadAudioFile">Create</button>
+  <CreateRecordPopup v-if="doPopup" :newRecordProp="newRecord">
   </CreateRecordPopup>
   <Piano v-if="isHome" :synth="synth" />
   <RecordedList />
@@ -22,7 +19,6 @@ import CreateRecordPopup from "../components/CreateRecordPopup.vue";
 import { makeApiRequest } from "../utils/useFetch";
 import ErrorView from "./ErrorView.vue";
 import router from '../router';
-
 
 export const volume = new Tone.Volume(0).toDestination();
 export const synth = new Tone.PolySynth().connect(volume);
@@ -49,41 +45,7 @@ export default {
     isHome() {
       return route.name === "home";
     },
-    async uploadAudioFile() {
-      let url = `https://localhost:7089/api/Audio/upload`;
-      const formData = new FormData();
-      let recordTitle = this.newRecord.title;
-      formData.append("file", recording, recordTitle + ".webm"); // Replace "audioFileBlob" with your Blob
 
-      const options = {
-        method: "POST",
-        body: formData,
-      };
-
-      const { responseFlag, responseData } = await makeApiRequest(url, options);
-      if (responseFlag) {
-        this.createRecord(responseData.filePath);
-      }
-    },
-
-    async createRecord(path) {
-      let url = `https://localhost:7089/api/Audio`;
-      this.newRecord.filePath = path;
-      let jsonBody = JSON.stringify(this.newRecord);
-
-      let options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonBody,
-      };
-      const { responseFlag } = await makeApiRequest(url, options); // Use await here
-
-      if (responseFlag) {
-        window.location.reload();
-      }
-    },
   },
 
   components: {

@@ -84,5 +84,7 @@ namespace WebAPI.Controllers
             Response.Cookies.Delete("jwt");
             return Ok("Success");
         }
+
+
     }
 }
