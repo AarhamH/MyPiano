@@ -19,7 +19,7 @@ MyPiano is a full-stack web application that allows users to interact with a pia
 ## Development Stack
 
 ### Server Side:
-- ASP.NET MVC
+- ASP.NET Web API
 - PostgreSQL
 - Microsoft Entity Framework ORM
 
