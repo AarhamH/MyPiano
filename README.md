@@ -6,6 +6,7 @@ Play and record music with ease from the comfort of your browser!
 
 - [Project Description](#project-description)
 - [Development Stack](#development-stack)
+- [Features](#features)
 - [Credits](#credits)
 
 ## Project Description
