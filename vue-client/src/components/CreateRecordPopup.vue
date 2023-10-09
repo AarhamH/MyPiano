@@ -6,10 +6,9 @@
         <input class="field-input" type="title" id="title" v-model="newRecordProp.title" required />
       </div>
       <div class="button-container">
-        <button class="field-button" @click="uploadAudioFile">Create</button>
-        <button class="field-button" @click="canclePopup">Cancle</button>
+        <button class="field-button" @click="uploadAudioFile" :disabled="isUploading">Create</button>
+        <button class="field-button" @click="cancelPopup">Cancel</button>
       </div>
-
     </div>
   </div>
 </template>
@@ -27,6 +26,9 @@ export default {
   props: {
     newRecordProp: Object,
   },
+  data() {
+    return {isUploading:false,}
+  },
 
   setup() {
     onMounted(async () => {
@@ -38,6 +40,8 @@ export default {
 
   methods: {
     async uploadAudioFile() {
+      if(this.isUploading) { return; }
+      this.isUploading = true;
       let url = `https://localhost:7089/api/Audio/upload`;
       const formData = new FormData();
       let recordTitle = this.newRecordProp.title;

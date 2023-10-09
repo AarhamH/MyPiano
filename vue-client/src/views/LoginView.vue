@@ -50,7 +50,6 @@
       </button>
       <button @click="goSignup" class="button2">Sign Up</button>
     </div>
-    <button class="button3">Forgot Password</button>
   </form>
 </template>
 
@@ -116,7 +115,7 @@ body {
   transition: 0.4s ease-in-out;
   margin: auto;
   width: 15%;
-  margin-top: 10%;
+  margin-top: 15%;
 }
 
 .form:hover {

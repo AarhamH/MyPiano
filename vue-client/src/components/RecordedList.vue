@@ -28,8 +28,11 @@
               :src="'https://localhost:7089/api/Audio/audio/' + song.title + '.webm'"             
             ></audio>
           </td>
-          <td>             
-            <button class="delete_button" @click="deleteSong(song.id, index)">
+          <td>    
+            <button class="board_button" @click="downloadAudio(song.title)">
+              <img src="../assets/download.png" />            
+            </button>         
+            <button class="board_button" @click="deleteSong(song.id, index)">
               <img src="../assets/garbage.png" />
             </button>
           </td>        
@@ -41,6 +44,7 @@
 
 <script>
 import { makeApiRequest } from "../utils/useFetch";
+import { recording } from "./CreateRecordPopup.vue";
 export default {
   data() {
     return { songs: [] };
@@ -101,6 +105,34 @@ export default {
         this.songs.splice(index, 1);
       }
     },
+
+    async downloadAudio(audioFileName) {
+      try {
+        const response = await fetch(`https://localhost:7089/api/Audio/audio/${audioFileName}.webm`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+
+        // Create a blob URL for the downloaded file
+        const blobURL = window.URL.createObjectURL(blob);
+
+        // Create a temporary anchor element for downloading
+        const anchor = document.createElement('a');
+        anchor.href = blobURL;
+        anchor.download = audioFileName;
+
+        // Simulate a click on the anchor element to trigger the download
+        anchor.click();
+
+        // Clean up the anchor and revoke the blob URL
+        window.URL.revokeObjectURL(blobURL);
+      } catch (error) {
+        console.error('Error downloading audio:', error);
+      }
+    },
   },
 };
 </script>
@@ -114,16 +146,18 @@ h1{
   text-align: center;
   margin-bottom: 15px;
 }
-.delete_button  {
+.board_button  {
   background: transparent;
   border: transparent;
   cursor: pointer;
+  margin-right: 20px;
 }
 
-.delete_button img {
-  width:25%;
+.board_button img {
+  width:20px;
   margin-top: 5px;
 }
+
 table{
   width:100%;
   table-layout: fixed;
