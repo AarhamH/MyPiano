@@ -18,8 +18,8 @@
       <tbody v-for="(song, index) in songs" :key="index">
         <tr>
           <td>{{ index + 1 }} </td>
-          <td>{{ song.title }} </td>
-          <td>{{ song.created }}</td>
+          <td> {{ song.title }}</td>
+          <td>{{ new Date(song.created).toLocaleString() }}</td>          
           <td class="st_column_action">
             <audio
               ref="audioPlayer"
@@ -73,6 +73,12 @@ export default {
         userId = responseData.id;
       }
       return userId;
+    },
+
+    changeDateTime(time)
+    {
+      var date = new Date(time);
+      return date;
     },
 
     async getSongs(userId) {

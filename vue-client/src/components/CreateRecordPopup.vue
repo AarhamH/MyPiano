@@ -3,7 +3,7 @@
     <div class="popup-inner">
       <h2 class="header">Record the song?</h2>
       <div class="field">
-        <input class="field-input" type="title" id="title" v-model="newRecordProp.title" required />
+        <input class="field-input" type="title" id="title" v-model="newRecordProp.title" @input="validateInput" required />
       </div>
       <div class="button-container">
         <button class="field-button" @click="uploadAudioFile" :disabled="isUploading">Create</button>
@@ -58,7 +58,17 @@ export default {
       }
     },
 
-    canclePopup() {
+    validateInput() {
+      // Define a regular expression to allow only alphanumeric characters and spaces.
+      const pattern = /^[A-Za-z0-9\s]+$/;
+
+      if (!pattern.test(this.newRecordProp.title)) {
+        // If the input contains unauthorized characters, clear it.
+        this.newRecordProp.title = this.newRecordProp.title.replace(/[^A-Za-z0-9\s]+/g, '');
+      }
+    },
+
+    cancelPopup() {
       doPopup.value = false;
       volume.volume.value = 0;
       synth.connect(recorder);

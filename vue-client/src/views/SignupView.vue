@@ -68,10 +68,10 @@
           };
 
           const { responseFlag, responseData } = await makeApiRequest(url,options);
-          if(responseFlag) { await router.push('/'); }
+          if(responseFlag) { await router.push('/login'); }
       },
       async goLogin() {
-        await router.push("/")
+        await router.push("/login")
       },
     },
   };
@@ -172,6 +172,7 @@ body {
   transition: 0.4s ease-in-out;
   background-color: #252525;
   color: white;
+  cursor: pointer;
 }
 
 .button2:hover {

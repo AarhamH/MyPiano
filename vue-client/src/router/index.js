@@ -15,14 +15,14 @@ const router = createRouter({
       meta: { hideHeader: true }, // Add this meta field        
     },
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: LoginView,
       meta: { hideHeader: true }, // Add this meta field        
 
     },
     {
-      path: '/home',
+      path: '/',
       name: 'home',
       component: HomeView,
       beforeEnter: (to, from, next) => {
@@ -32,7 +32,7 @@ const router = createRouter({
           next();
         } else {
           // User is not authenticated, redirect to the login page
-          next('/');
+          next('/login');
         }
       },
     },

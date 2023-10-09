@@ -13,7 +13,7 @@
         </div>
         <div class="menu">
           <h3>Username: {{  userName  }}</h3>
-          <h3>Email: {{  userName  }}</h3>
+          <h3>Email: {{  Email  }}</h3>
 
           <ul>
             <li>

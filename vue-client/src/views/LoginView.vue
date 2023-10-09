@@ -1,6 +1,7 @@
 <template>
   <form class="form" @submit.prevent="loginUser">
     <p id="heading">Login</p>
+    <p class="error-msg" v-if="!correctPass">Username or password is not correct. Please try again!</p>
     <div class="field">
       <svg
         class="input-icon"
@@ -67,6 +68,7 @@ export default {
         email: "",
         password: "",
       },
+      correctPass: true
     };
   },
   setup() {
@@ -88,7 +90,11 @@ export default {
 
       if (responseFlag) {
         store.commit("SET_AUTH", true);        
-        await router.push("/home");
+        await router.push("/");
+      }
+      else
+      {
+        this.correctPass = false;
       }
     },
 
@@ -116,6 +122,11 @@ body {
   margin: auto;
   width: 15%;
   margin-top: 15%;
+}
+
+.error-msg {
+  color: #F05050;
+
 }
 
 .form:hover {
@@ -176,6 +187,8 @@ body {
   transition: 0.4s ease-in-out;
   background-color: #252525;
   color: white;
+  cursor: pointer;
+
 }
 
 .button1:hover {
@@ -193,26 +206,11 @@ body {
   transition: 0.4s ease-in-out;
   background-color: #252525;
   color: white;
+  cursor: pointer;
 }
 
 .button2:hover {
   background-color: black;
-  color: white;
-}
-
-.button3 {
-  margin-bottom: 3em;
-  padding: 0.5em;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  transition: 0.4s ease-in-out;
-  background-color: #252525;
-  color: white;
-}
-
-.button3:hover {
-  background-color: red;
   color: white;
 }
 </style>
